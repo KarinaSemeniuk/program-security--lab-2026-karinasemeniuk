@@ -41,3 +41,12 @@ is deliberately avoided).
 
 - **NFR-9.** The backend application layer shall be horizontally
   scalable without requiring changes to the database schema.
+
+## Availability
+
+- **NFR-10.** The sign-in endpoint and the booking-creation endpoint
+  shall enforce a rate limit of no more than 10 requests per minute
+  per IP address, returning HTTP 429 when exceeded. *(Identified as a
+  gap by `security/threat_model.md` — Denial-of-Service entries for
+  `F1`, `D1` and `P2` — and recorded here before implementation, per
+  Specification-Driven Development.)*

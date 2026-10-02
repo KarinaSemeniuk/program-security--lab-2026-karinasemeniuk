@@ -15,6 +15,7 @@ kept in sync with the implementation as required by ISO/IEC/IEEE 12207.
 | `architecture/` | Architecture description across multiple viewpoints (ISO/IEC/IEEE 42010). |
 | `internal_spec/` | Domain model and business logic, organized by bounded context. |
 | `policy/` | Binding project policies: engineering rules (`project_policy.md`, including the pinned technology stack) and documentation rules (`project_documentation_policy.md`). |
+| `security/` | Security policy, privacy policy, and the STRIDE-based threat model. |
 | `testing/` | Testing strategy and conventions. |
 | `CHANGELOG.md` | Log of significant changes to the system and its documentation. |
 
@@ -24,6 +25,7 @@ kept in sync with the implementation as required by ISO/IEC/IEEE 12207.
 2. `specification/scope.md` — what the system is and is not responsible for.
 3. `architecture/overview.md` — how the system is put together.
 4. `internal_spec/contexts_registry.md` — the domain model, by bounded context.
+5. `security/security_policy.md` and `security/threat_model.md` — the security rules and the threats they exist to address.
 
 ## Maintenance principle
 
