@@ -3,10 +3,10 @@
 | | |
 |---|---|
 | Name | Project Policy — RoomBook |
-| Version | 0.1.0 |
+| Version | 0.2.0 |
 | Status | Draft |
 | Classification | Internal |
-| Last updated | 2026-09-20 |
+| Last updated | 2026-10-30 |
 | Owner | Karina Semeniuk |
 
 > This policy defines the mandatory code and architecture requirements for `RoomBook` — a responsive single-page web application for booking time-bound resources (meeting rooms, coworking desks), adapted for both mobile and desktop browsers. Key requirements: strictly typed OOP following SOLID, clean code, a layered architecture with enforced boundaries between layers, and mandatory test coverage.
@@ -60,7 +60,7 @@ The versions below are the actual pinned versions for this project (see `package
 |---|---|---|---|
 | Runtime | Node.js | 22 LTS | Backend execution environment. |
 | Language | TypeScript | 5.6.x | `strict: true` in `tsconfig.json`; no exceptions. |
-| Backend framework | Express | 4.21.x | Confined to `EntryPoint/` and `Infrastructure/Transport/`. |
+| Backend framework | Express | 4.22.x | Confined to `EntryPoint/` and `Infrastructure/Transport/`. |
 | ORM | Prisma | 5.20.x | Confined to `Infrastructure/Persistence/`. |
 | Database | PostgreSQL | 16.x | The only stateful component (see `architecture/deployment.md`). |
 | Frontend framework | React | 18.3.x | SPA client. |
