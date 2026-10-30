@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Name | Project Policy — RoomBook |
-| Version | 0.2.0 |
+| Version | 0.3.0 |
 | Status | Draft |
 | Classification | Internal |
 | Last updated | 2026-10-30 |
@@ -64,7 +64,7 @@ The versions below are the actual pinned versions for this project (see `package
 | ORM | Prisma | 5.20.x | Confined to `Infrastructure/Persistence/`. |
 | Database | PostgreSQL | 16.x | The only stateful component (see `architecture/deployment.md`). |
 | Frontend framework | React | 18.3.x | SPA client. |
-| Build tool | Vite | 5.4.x | Frontend build and dev server. |
+| Build tool | Vite | 6.4.x | Frontend build and dev server. |
 | Routing (frontend) | React Router | 6.26.x | Client-side navigation. |
 | Package manager | npm | 10.x | The only package manager used; no mixing with yarn/pnpm lockfiles. |
 | Linting | ESLint | 9.x | Enforced in CI; no warnings allowed to merge. |
