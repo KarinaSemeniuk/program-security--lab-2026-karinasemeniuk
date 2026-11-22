@@ -1,0 +1,13 @@
+PASS tests/Infrastructure/Transport/HttpTelemetry.test.ts
+  HttpTelemetry
+    ✓ selects metadata, generates correlation IDs and excludes credentials (15 ms)
+    ✓ emits one threshold alert for five denied logins in a minute (6 ms)
+    ✓ rotates journals with a fixed archive limit (6 ms)
+    ✓ expires samples from the monitoring window (2 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        2.574 s
+Ran all test suites matching /tests\/Infrastructure\/Transport\/HttpTelemetry.test.ts/i.
+Test results written to: ../lab12/evidence/telemetry-tests.json

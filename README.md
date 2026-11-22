@@ -94,3 +94,12 @@ Catalog resources now include type, description, location and equipment. Open «
 ## Service functionality
 
 Resource opening hours/closed dates, IANA local-time viewing, versioned booking movement, filtered personal history, password changes/other-session revocation, and Admin account blocking are implemented. See `docs/guide/service-functionality.md`. `npm run check:service` checks the real local API/PostgreSQL on temporary fixtures and removes them afterwards.
+
+## Лабораторні 10–16
+
+- [Модель довіри і мережевий доступ](docs/guide/client-server-security.md)
+- [Логування і моніторинг](docs/guide/logging-monitoring.md)
+- [Наскрізні нотатки і перевірка історії](docs/guide/end-to-end-notes.md)
+- [Резервування та локальний реліз](docs/guide/backup-release-support.md)
+
+Версія 0.2.0 додає клієнтські AES-GCM нотатки, SHA-256 журнал подій, структуроване логування й відтворювані процедури резервування та відновлення. Початкова локальна конфігурація та ключі не входять у дистрибутив.

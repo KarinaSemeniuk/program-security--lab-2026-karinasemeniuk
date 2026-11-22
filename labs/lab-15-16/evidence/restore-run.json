@@ -1,0 +1,6 @@
+{
+  "time": "2026-11-22T17:44:48.474Z",
+  "command": "node --env-file=.env labs/lab-15-16/check-recovery.mjs",
+  "output": "{\n  \"result\": \"passed\",\n  \"sourceCounts\": {\n    \"users\": 3,\n    \"resources\": 1,\n    \"bookings\": 1\n  },\n  \"afterLossBookings\": 0,\n  \"restoredCounts\": {\n    \"users\": 3,\n    \"resources\": 1,\n    \"bookings\": 1\n  },\n  \"restoredHealth\": 200,\n  \"restoredLogin\": 200,\n  \"restoredBooking\": 200,\n  \"restoredSealedNote\": 200,\n  \"keyringRecovered\": true,\n  \"tamperedArchiveRejected\": true,\n  \"rtoSeconds\": 2.33,\n  \"rpoTargetSeconds\": 86400,\n  \"rtoTargetSeconds\": 900,\n  \"totalDrillSeconds\": 3.09\n}",
+  "code": 0
+}

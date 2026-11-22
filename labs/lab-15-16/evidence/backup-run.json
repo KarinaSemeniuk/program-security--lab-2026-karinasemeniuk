@@ -1,0 +1,6 @@
+{
+  "time": "2026-11-22T17:44:47.662Z",
+  "command": "node --env-file=.env scripts/backup.mjs create <нова копія> && node --env-file=.env scripts/backup.mjs verify <нова копія>",
+  "output": "{\n  \"result\": \"created\",\n  \"artifact\": \"roombook-review.rbbackup\",\n  \"format\": 1,\n  \"createdAt\": \"2026-11-22T17:44:48.009Z\",\n  \"applicationVersion\": \"0.2.0\",\n  \"algorithm\": \"AES-256-GCM\",\n  \"sha256\": \"8551a730f94356b0a1fa1727454a412c4d3be9f6bab3f1daa6d86a96c576629b\",\n  \"bytes\": 7943,\n  \"files\": [\n    \"database.dump\",\n    \"events-chain.jsonl\",\n    \"installation-license.json\",\n    \"license-public.pem\",\n    \"note-keys.json\",\n    \"runtime.env\"\n  ]\n}\n\n{\n  \"result\": \"verified\",\n  \"sha256\": \"8551a730f94356b0a1fa1727454a412c4d3be9f6bab3f1daa6d86a96c576629b\",\n  \"authenticated\": true,\n  \"bytes\": 7943\n}",
+  "code": 0
+}

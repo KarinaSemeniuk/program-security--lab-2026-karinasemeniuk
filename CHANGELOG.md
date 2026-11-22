@@ -36,3 +36,7 @@ Resource calendars/local time, guarded booking movement/history filters, account
 - Implemented the shared exception/value-object foundations used by Identity.
 - Reviewed SharedKernel consumers: Identity, Catalog and Booking.
 - Added unit tests using mocked persistence, plus a manual local API check.
+
+## 0.2.0 — 2026-11-22
+
+Додано навчальний REST клієнт, серверні заголовки захисту, аудит і моніторинг, клієнтське AES-GCM шифрування нотаток, SHA-256 ланцюг подій, зашифровані резервні копії, ізольоване відновлення та відтворюваний локальний реліз.

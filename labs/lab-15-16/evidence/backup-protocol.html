@@ -1,0 +1,25 @@
+<!doctype html><html lang="uk"><meta charset="utf-8"><title>RoomBook — протокол перевірки</title><style>*{box-sizing:border-box}body{margin:0;background:white;color:#172431;font:19px/1.4 system-ui}main{padding:24px;max-width:900px}h1{font-size:25px;margin:0 0 12px}p{margin:8px 0}small{color:#4b5965}pre{font:19px/1.35 monospace;white-space:pre-wrap;overflow-wrap:anywhere;padding:16px 0;border-top:1px solid #d1d9df}.cmd{font:17px/1.4 monospace;overflow-wrap:anywhere}.status{font-weight:600;color:#165d37}</style><main><h1>RoomBook — протокол перевірки</h1><p><small>Час виконання: 2026-11-22T17:44:47.662Z</small></p><p class="cmd">node --env-file=.env scripts/backup.mjs create &lt;нова копія&gt; &amp;&amp; node --env-file=.env scripts/backup.mjs verify &lt;нова копія&gt;</p><pre>{
+  &quot;result&quot;: &quot;created&quot;,
+  &quot;artifact&quot;: &quot;roombook-review.rbbackup&quot;,
+  &quot;format&quot;: 1,
+  &quot;createdAt&quot;: &quot;2026-11-22T17:44:48.009Z&quot;,
+  &quot;applicationVersion&quot;: &quot;0.2.0&quot;,
+  &quot;algorithm&quot;: &quot;AES-256-GCM&quot;,
+  &quot;sha256&quot;: &quot;8551a730f94356b0a1fa1727454a412c4d3be9f6bab3f1daa6d86a96c576629b&quot;,
+  &quot;bytes&quot;: 7943,
+  &quot;files&quot;: [
+    &quot;database.dump&quot;,
+    &quot;events-chain.jsonl&quot;,
+    &quot;installation-license.json&quot;,
+    &quot;license-public.pem&quot;,
+    &quot;note-keys.json&quot;,
+    &quot;runtime.env&quot;
+  ]
+}
+
+{
+  &quot;result&quot;: &quot;verified&quot;,
+  &quot;sha256&quot;: &quot;8551a730f94356b0a1fa1727454a412c4d3be9f6bab3f1daa6d86a96c576629b&quot;,
+  &quot;authenticated&quot;: true,
+  &quot;bytes&quot;: 7943
+}</pre><p class="status">Код завершення: 0</p></main></html>

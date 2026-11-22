@@ -1,0 +1,250 @@
+{
+  "totalRequests": 115,
+  "sourceIPs": {
+    "203.0.113.44": 11,
+    "203.0.113.18": 10,
+    "192.0.2.61": 13,
+    "203.0.113.10": 12,
+    "185.220.101.22": 59,
+    "203.0.113.27": 10
+  },
+  "suspectRequests": 59,
+  "failedLogins": 20,
+  "firstFailed": "17/Nov/2026:14:04:02 +0200",
+  "lastFailed": "17/Nov/2026:14:04:59 +0200",
+  "successfulLogin": [
+    {
+      "line": 39,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:02 +0200",
+      "method": "POST",
+      "path": "/auth/login",
+      "status": 200,
+      "bytes": 418,
+      "userAgent": "python-requests/2.32.3"
+    }
+  ],
+  "exports": [
+    {
+      "line": 94,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:07:16 +0200",
+      "method": "GET",
+      "path": "/api/admin/readers/export?format=json",
+      "status": 200,
+      "bytes": 684217,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 96,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:07:24 +0200",
+      "method": "GET",
+      "path": "/api/admin/loans/export?format=json",
+      "status": 200,
+      "bytes": 1128946,
+      "userAgent": "python-requests/2.32.3"
+    }
+  ],
+  "exportResponseBytes": 1813163,
+  "sqlRequests": [
+    {
+      "line": 57,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:34 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=history",
+      "status": 200,
+      "bytes": 2481,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 59,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:39 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q='",
+      "status": 500,
+      "bytes": 1724,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 61,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:45 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' OR '1'='1'-- -",
+      "status": 200,
+      "bytes": 48726,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 63,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:51 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' ORDER BY 5-- -",
+      "status": 500,
+      "bytes": 1758,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 65,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:05:56 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' ORDER BY 4-- -",
+      "status": 200,
+      "bytes": 64,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 67,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:06:04 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' UNION SELECT NULL,NULL,NULL,NULL-- -",
+      "status": 200,
+      "bytes": 118,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 69,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:06:12 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' UNION SELECT table_name,NULL,NULL,NULL FROM information_schema.tables-- -",
+      "status": 200,
+      "bytes": 3914,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 71,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:06:19 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' UNION SELECT column_name,NULL,NULL,NULL FROM information_schema.columns WHERE table_name='sessions'-- -",
+      "status": 200,
+      "bytes": 972,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 73,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:06:27 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q=' UNION SELECT user_id,access_token,expires_at,NULL FROM sessions-- -",
+      "status": 200,
+      "bytes": 2387,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 110,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:08:16 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q='; DROP DATABASE catalog1;-- -",
+      "status": 500,
+      "bytes": 1934,
+      "userAgent": "python-requests/2.32.3"
+    }
+  ],
+  "profileChanges": [
+    {
+      "line": 102,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:07:54 +0200",
+      "method": "PATCH",
+      "path": "/api/admin/profile",
+      "status": 200,
+      "bytes": 486,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 104,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:07:58 +0200",
+      "method": "POST",
+      "path": "/api/admin/profile/avatar",
+      "status": 200,
+      "bytes": 214,
+      "userAgent": "python-requests/2.32.3"
+    }
+  ],
+  "finalRequests": [
+    {
+      "line": 109,
+      "ip": "203.0.113.10",
+      "time": "17/Nov/2026:14:08:11 +0200",
+      "method": "GET",
+      "path": "/api/admin/profile",
+      "status": 200,
+      "bytes": 512,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "line": 110,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:08:16 +0200",
+      "method": "GET",
+      "path": "/api/catalog/search?q='; DROP DATABASE catalog1;-- -",
+      "status": 500,
+      "bytes": 1934,
+      "userAgent": "python-requests/2.32.3"
+    },
+    {
+      "line": 111,
+      "ip": "203.0.113.44",
+      "time": "17/Nov/2026:14:08:19 +0200",
+      "method": "GET",
+      "path": "/api/books?limit=20&page=1",
+      "status": 500,
+      "bytes": 237,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "line": 112,
+      "ip": "192.0.2.61",
+      "time": "17/Nov/2026:14:08:21 +0200",
+      "method": "GET",
+      "path": "/api/loans",
+      "status": 500,
+      "bytes": 237,
+      "userAgent": "LibraryMobile/3.4.2 (Android 15)"
+    },
+    {
+      "line": 113,
+      "ip": "203.0.113.10",
+      "time": "17/Nov/2026:14:08:23 +0200",
+      "method": "GET",
+      "path": "/api/admin/dashboard",
+      "status": 500,
+      "bytes": 237,
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/157.0.0.0 Safari/537.36"
+    },
+    {
+      "line": 114,
+      "ip": "203.0.113.27",
+      "time": "17/Nov/2026:14:08:27 +0200",
+      "method": "GET",
+      "path": "/api/me",
+      "status": 500,
+      "bytes": 237,
+      "userAgent": "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) AppleWebKit/537.36 Chrome/157.0.0.0 Mobile Safari/537.36"
+    },
+    {
+      "line": 115,
+      "ip": "185.220.101.22",
+      "time": "17/Nov/2026:14:08:31 +0200",
+      "method": "GET",
+      "path": "/api/admin/dashboard",
+      "status": 500,
+      "bytes": 237,
+      "userAgent": "python-requests/2.32.3"
+    }
+  ],
+  "sourceSHA256": {
+    "webserver.log": "ee7a40de5fba5fecea8b9de002fbb314786392753f1ee56256f31c02e6a7693c",
+    "application.log": "12bbc642f012da1ebee37a32da1e058bd17179fda72398f928553df5ce1eca81"
+  }
+}

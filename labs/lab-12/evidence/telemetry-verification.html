@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}body{margin:0;color:#182532;background:white;font:18px/1.4 system-ui}main{padding:22px;width:960px}h1{font-size:25px;margin:0 0 12px}h2{font-size:20px;margin:14px 0 6px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:16px/1.4 monospace;border-top:1px solid #ccd4dc;padding:12px 0}p{margin:8px 0}.ok{color:#185b36;font-weight:600}</style><main><h1>RoomBook — перевірка журналювання</h1><p>Команда: jest --runInBand tests/Infrastructure/Transport/HttpTelemetry.test.ts</p><pre>PASS tests/Infrastructure/Transport/HttpTelemetry.test.ts
+  HttpTelemetry
+    ✓ selects metadata, generates correlation IDs and excludes credentials (15 ms)
+    ✓ emits one threshold alert for five denied logins in a minute (6 ms)
+    ✓ rotates journals with a fixed archive limit (6 ms)
+    ✓ expires samples from the monitoring window (2 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        2.574 s
+Ran all test suites matching /tests\/Infrastructure\/Transport\/HttpTelemetry.test.ts/i.
+Test results written to: ../lab12/evidence/telemetry-tests.json
+</pre><h2>Запис спрацювання порога з журналу RoomBook</h2><pre>{
+  &quot;time&quot;: &quot;2026-11-22T17:16:06.751Z&quot;,
+  &quot;level&quot;: &quot;WARNING&quot;,
+  &quot;event&quot;: &quot;monitor.threshold&quot;,
+  &quot;requestId&quot;: &quot;c6014f55-22f0-4c1a-b58c-df7f3b48933b&quot;,
+  &quot;requests&quot;: 21,
+  &quot;failedLogins&quot;: 5,
+  &quot;serverErrors&quot;: 0,
+  &quot;writeFailures&quot;: 0
+}</pre><p class="ok">4 тести пройшли; поріг 5 невдалих входів зафіксовано.</p></main>

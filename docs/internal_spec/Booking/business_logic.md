@@ -144,3 +144,7 @@ Booking.reschedule preserves identity, owner, resource, creation time, status an
 PrismaBookingRepository locks resource first, then booking, rereads current state, excludes the booking itself from occupied intervals and commits the new timestamps/revision together. The exclusion constraint remains the final overlap guard. Booking.Rescheduled emits old/new intervals only after commit; the no-subscriber dispatcher is not an audit log. Note AAD binds stable booking/owner identifiers rather than time, so movement preserves decryptability.
 
 Owner history filters all/upcoming/past/cancelled apply inside the database before pagination/count. Upcoming includes active bookings with end after the request clock, ordered soonest first; past excludes cancelled and uses end <= clock. Admin date-bound history remains UTC.
+
+## Наскрізні нотатки
+
+Власник передає лише автентифікований клієнтський конверт. SealedNoteVO перевіряє профіль, прив’язку та очікувану ревізію; ISealedNoteRepository повторно контролює власника і серіалізує зміни. Серверний ключ INoteCipher для цих даних не використовується.

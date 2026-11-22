@@ -20,3 +20,7 @@ Append-only. Newest entry on top.
 - Documented the `Booking` aggregate, its full status lifecycle, and the creation/cancellation policies.
 - Established the non-overlap invariant as enforced both in `CreateBookingDPolicy` and via a database-level exclusion constraint.
 - Documented `ListActiveBookingsForResourceAQ` as the sanctioned read path for `Catalog`, deliberately excluding `userId` from its result.
+
+## 2026-11-22
+
+Додано аудит HTTP з актуальним actorId. Для Booking додано незалежні клієнтські конверти E2EE з перевіркою власності та ревізій; подробиці у guide/end-to-end-notes.md.

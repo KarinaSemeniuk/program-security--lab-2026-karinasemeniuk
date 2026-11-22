@@ -1,0 +1,24 @@
+{
+  "result": "passed",
+  "sourceCounts": {
+    "users": 3,
+    "resources": 1,
+    "bookings": 1
+  },
+  "afterLossBookings": 0,
+  "restoredCounts": {
+    "users": 3,
+    "resources": 1,
+    "bookings": 1
+  },
+  "restoredHealth": 200,
+  "restoredLogin": 200,
+  "restoredBooking": 200,
+  "restoredSealedNote": 200,
+  "keyringRecovered": true,
+  "tamperedArchiveRejected": true,
+  "rtoSeconds": 2.33,
+  "rpoTargetSeconds": 86400,
+  "rtoTargetSeconds": 900,
+  "totalDrillSeconds": 3.09
+}

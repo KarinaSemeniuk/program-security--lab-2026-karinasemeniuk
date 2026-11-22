@@ -1,0 +1,6 @@
+{
+  "time": "2026-11-22T17:44:52.206Z",
+  "command": "sha256sum roombook-0.2.0.tar.gz; node --env-file=.env scripts/check-build-secrets.mjs",
+  "output": "55387b9447f580575cc355b8939618e66d845b9e1c713d7f46d3f169a6bda245  roombook-0.2.0.tar.gz\n\n{\"result\":\"passed\",\"checkedBuildFiles\":490,\"secretValuesDisplayed\":false}",
+  "code": 0
+}

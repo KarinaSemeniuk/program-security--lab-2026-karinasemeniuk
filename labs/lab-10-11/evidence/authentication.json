@@ -1,0 +1,82 @@
+{
+  "result": "passed",
+  "checks": [
+    {
+      "path": "me",
+      "status": 401
+    },
+    {
+      "path": "login",
+      "status": 403
+    },
+    {
+      "path": "login",
+      "status": 403
+    },
+    {
+      "path": "login",
+      "status": 403
+    },
+    {
+      "path": "login",
+      "status": 400
+    },
+    {
+      "path": "register",
+      "status": 201
+    },
+    {
+      "path": "login",
+      "status": 401
+    },
+    {
+      "path": "login",
+      "status": 401
+    },
+    {
+      "path": "login",
+      "status": 200
+    },
+    {
+      "path": "me",
+      "status": 200
+    },
+    {
+      "path": "me",
+      "status": 401
+    },
+    {
+      "path": "me",
+      "status": 401
+    },
+    {
+      "path": "me",
+      "status": 401
+    },
+    {
+      "path": "login",
+      "status": 401
+    },
+    {
+      "path": "logout",
+      "status": 204
+    },
+    {
+      "path": "me",
+      "status": 401
+    },
+    {
+      "path": "logout",
+      "status": 204
+    },
+    {
+      "path": "logout",
+      "status": 204
+    },
+    {
+      "path": "login/forwarded-address-limit",
+      "status": 429
+    }
+  ],
+  "syntheticAccountRemoved": true
+}

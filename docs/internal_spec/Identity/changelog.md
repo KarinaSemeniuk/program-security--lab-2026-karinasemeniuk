@@ -29,3 +29,7 @@ Append-only. Newest entry on top.
 ## [2026-09-20] Initial business logic documented
 - Documented the `User` aggregate, its invariants, and the registration/authentication/blocking operations.
 - Established that `role` can never be set to `ADMIN` through a public API path.
+
+## 2026-11-22
+
+Додано аудит HTTP з актуальним actorId. Для Booking додано незалежні клієнтські конверти E2EE з перевіркою власності та ревізій; подробиці у guide/end-to-end-notes.md.

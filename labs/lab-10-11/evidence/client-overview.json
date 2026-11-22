@@ -1,0 +1,111 @@
+{
+  "reader": {
+    "variant": 8,
+    "client_id": "dahlia-08",
+    "reader_id": "R-008",
+    "reader_name": "Reader Variant 08",
+    "library_card": "LIB-2026-008",
+    "watermark": "LAB6-V08-R008"
+  },
+  "books": {
+    "variant": 8,
+    "watermark": "LAB6-V08-R008",
+    "count": 6,
+    "books": [
+      {
+        "id": "BK-08-01",
+        "catalog_no": "CAT-0043",
+        "title": "The Web Application Hacker's Handbook",
+        "author": "Dafydd Stuttard, Marcus Pinto",
+        "year": 2011,
+        "available": true,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "id": "BK-08-02",
+        "catalog_no": "CAT-0044",
+        "title": "Database System Concepts",
+        "author": "Abraham Silberschatz et al.",
+        "year": 2019,
+        "available": false,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "id": "BK-08-03",
+        "catalog_no": "CAT-0045",
+        "title": "The Art of Software Security Assessment",
+        "author": "Mark Dowd et al.",
+        "year": 2006,
+        "available": true,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "id": "BK-08-04",
+        "catalog_no": "CAT-0046",
+        "title": "Design Patterns",
+        "author": "Erich Gamma et al.",
+        "year": 1994,
+        "available": true,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "id": "BK-08-05",
+        "catalog_no": "CAT-0047",
+        "title": "Security Engineering",
+        "author": "Ross Anderson",
+        "year": 2020,
+        "available": false,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "id": "BK-08-06",
+        "catalog_no": "CAT-0048",
+        "title": "Network Security Assessment",
+        "author": "Chris McNab",
+        "year": 2016,
+        "available": true,
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      }
+    ]
+  },
+  "loans": {
+    "variant": 8,
+    "watermark": "LAB6-V08-R008",
+    "count": 2,
+    "loans": [
+      {
+        "loan_id": "LN-08-01",
+        "book_id": "BK-08-02",
+        "title": "Database System Concepts",
+        "issued_at": "2026-09-01",
+        "due_at": "2026-10-01",
+        "status": "active",
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      },
+      {
+        "loan_id": "LN-08-02",
+        "book_id": "BK-08-05",
+        "title": "Security Engineering",
+        "issued_at": "2026-01-06",
+        "due_at": "2026-02-06",
+        "status": "active",
+        "owner_variant": 8,
+        "watermark": "LAB6-V08-R008"
+      }
+    ]
+  },
+  "summary": {
+    "variant": 8,
+    "total_books": 6,
+    "available_books": 4,
+    "active_loans": 2,
+    "watermark": "LAB6-V08-R008"
+  }
+}

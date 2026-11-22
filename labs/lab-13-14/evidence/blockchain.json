@@ -1,0 +1,77 @@
+{
+  "blocks": 6,
+  "initialIntegrity": true,
+  "tamperingDetected": true,
+  "rebuiltIntegrity": true,
+  "originalCheckpoint": {
+    "blocks": 6,
+    "head": "c6c67c246f0e4e7b7afc5aaeb912de6cbef0377f4b6356ebadf3665ae7eeeb07"
+  },
+  "rebuiltCheckpoint": {
+    "blocks": 6,
+    "head": "8a1c7743cb736bf9da68fb6db0bc67c846b401e6cd5173641ff0ddae038c0f01"
+  },
+  "checkpointChanged": true,
+  "originalBlocks": [
+    {
+      "index": 0,
+      "time": "2026-11-22T17:30:35.227Z",
+      "data": {
+        "operation": "genesis",
+        "sequence": 0
+      },
+      "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash": "c77b4a1cce6b71116b9af4c286e8fd3a6ad142a34ce588200b18f4c793774c9d"
+    },
+    {
+      "index": 1,
+      "time": "2026-11-22T17:30:35.235Z",
+      "data": {
+        "operation": "booking.recorded",
+        "sequence": 1
+      },
+      "previousHash": "c77b4a1cce6b71116b9af4c286e8fd3a6ad142a34ce588200b18f4c793774c9d",
+      "hash": "a0f44e95279d53612daa28107c76733954e26af12cdd9d633ea861c7d5f8bcb0"
+    },
+    {
+      "index": 2,
+      "time": "2026-11-22T17:30:35.235Z",
+      "data": {
+        "operation": "booking.recorded",
+        "sequence": 2
+      },
+      "previousHash": "a0f44e95279d53612daa28107c76733954e26af12cdd9d633ea861c7d5f8bcb0",
+      "hash": "00833366d40466375bef370faf5e780e3f0d80b91606e40e516e4f1d3a1d23cb"
+    },
+    {
+      "index": 3,
+      "time": "2026-11-22T17:30:35.236Z",
+      "data": {
+        "operation": "booking.recorded",
+        "sequence": 3
+      },
+      "previousHash": "00833366d40466375bef370faf5e780e3f0d80b91606e40e516e4f1d3a1d23cb",
+      "hash": "608ac207637c2c5e8db36b8083fd04f0e3e7adf3e8958d509a2602e251f69eb5"
+    },
+    {
+      "index": 4,
+      "time": "2026-11-22T17:30:35.236Z",
+      "data": {
+        "operation": "booking.recorded",
+        "sequence": 4
+      },
+      "previousHash": "608ac207637c2c5e8db36b8083fd04f0e3e7adf3e8958d509a2602e251f69eb5",
+      "hash": "2d127419d23fcddc4ed26f6a59c6d82bd3ba1ddabcd766387bc81f7585ecc0f4"
+    },
+    {
+      "index": 5,
+      "time": "2026-11-22T17:30:35.236Z",
+      "data": {
+        "operation": "booking.recorded",
+        "sequence": 5
+      },
+      "previousHash": "2d127419d23fcddc4ed26f6a59c6d82bd3ba1ddabcd766387bc81f7585ecc0f4",
+      "hash": "c6c67c246f0e4e7b7afc5aaeb912de6cbef0377f4b6356ebadf3665ae7eeeb07"
+    }
+  ]
+}

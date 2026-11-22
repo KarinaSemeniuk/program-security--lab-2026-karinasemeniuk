@@ -1,0 +1,94 @@
+{
+  "result": "passed",
+  "checks": [
+    {
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 401
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 200
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 200
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 200
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 403
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 403
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 400
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 409
+    },
+    {
+      "path": "/api/bookings/cf46d697-5537-48b5-be36-a34a195ffc13/sealed-note",
+      "status": 409
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 401
+    }
+  ],
+  "independentEndpointDecryption": true,
+  "wrongKeyRejected": true,
+  "ciphertextTamperingRejected": true,
+  "revisionTamperingRejected": true,
+  "plaintextAbsentFromDatabaseAndLogs": true,
+  "monitorThresholdDetected": true,
+  "ledgerTamperingDetected": true,
+  "checkpoint": {
+    "blocks": 4,
+    "head": "8e2e8f1cbebb6f01f21f7b5d102013cd5c6e557b83b3beeaf36adfd51bd32317"
+  },
+  "envelope": {
+    "version": 1,
+    "algorithm": "AES-256-GCM",
+    "keyId": "49ddcf75994a398647cab54e6571ecaf",
+    "ownerId": "648de169-4eda-40e9-b91b-f3222277f175",
+    "bookingId": "cf46d697-5537-48b5-be36-a34a195ffc13",
+    "revision": 1,
+    "nonce": "aBKtg/rowUxvEzQh",
+    "ciphertext": "RHw3kB2QvV/aIFdKBweThmGFTdZjmj8V8HPr8JDF0uTzlMo/aRRp+vRRduHTo1VEQICQhuWMSJD3B1qVskm9TdxD6/EZOTH5EAeI0c0GsEwIGB5RVxyJb5jT/OYo0J/901gnOrdquTay6B8bdyxSKLMkU6Ciy344jg=="
+  }
+}

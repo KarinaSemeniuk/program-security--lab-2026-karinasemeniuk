@@ -1,0 +1,18 @@
+{
+  "result": "created",
+  "artifact": "recovery.rbbackup",
+  "format": 1,
+  "createdAt": "2026-11-22T17:24:50.533Z",
+  "applicationVersion": "0.2.0",
+  "algorithm": "AES-256-GCM",
+  "sha256": "168b9419bd76565bedd76b0b4077119fce6f3e59c590327c117b194c95f04a07",
+  "bytes": 7949,
+  "files": [
+    "database.dump",
+    "events-chain.jsonl",
+    "installation-license.json",
+    "license-public.pem",
+    "note-keys.json",
+    "runtime.env"
+  ]
+}

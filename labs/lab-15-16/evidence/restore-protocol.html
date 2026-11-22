@@ -1,0 +1,24 @@
+<!doctype html><html lang="uk"><meta charset="utf-8"><title>RoomBook — протокол перевірки</title><style>*{box-sizing:border-box}body{margin:0;background:white;color:#172431;font:19px/1.4 system-ui}main{padding:24px;max-width:900px}h1{font-size:25px;margin:0 0 12px}p{margin:8px 0}small{color:#4b5965}pre{font:19px/1.35 monospace;white-space:pre-wrap;overflow-wrap:anywhere;padding:16px 0;border-top:1px solid #d1d9df}.cmd{font:17px/1.4 monospace;overflow-wrap:anywhere}.status{font-weight:600;color:#165d37}</style><main><h1>RoomBook — протокол перевірки</h1><p><small>Час виконання: 2026-11-22T17:44:48.474Z</small></p><p class="cmd">node --env-file=.env labs/lab-15-16/check-recovery.mjs</p><pre>{
+  &quot;result&quot;: &quot;passed&quot;,
+  &quot;sourceCounts&quot;: {
+    &quot;users&quot;: 3,
+    &quot;resources&quot;: 1,
+    &quot;bookings&quot;: 1
+  },
+  &quot;afterLossBookings&quot;: 0,
+  &quot;restoredCounts&quot;: {
+    &quot;users&quot;: 3,
+    &quot;resources&quot;: 1,
+    &quot;bookings&quot;: 1
+  },
+  &quot;restoredHealth&quot;: 200,
+  &quot;restoredLogin&quot;: 200,
+  &quot;restoredBooking&quot;: 200,
+  &quot;restoredSealedNote&quot;: 200,
+  &quot;keyringRecovered&quot;: true,
+  &quot;tamperedArchiveRejected&quot;: true,
+  &quot;rtoSeconds&quot;: 2.33,
+  &quot;rpoTargetSeconds&quot;: 86400,
+  &quot;rtoTargetSeconds&quot;: 900,
+  &quot;totalDrillSeconds&quot;: 3.09
+}</pre><p class="status">Код завершення: 0</p></main></html>

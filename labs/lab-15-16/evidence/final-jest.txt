@@ -1,0 +1,66 @@
+PASS tests/Infrastructure/Audit/FileHashChain.test.ts
+PASS frontend/tests/Infrastructure/Cryptography/WebCryptoSealedNotes.test.ts
+PASS tests/Infrastructure/Auth/BcryptPasswordVerifier.test.ts
+PASS tests/Infrastructure/Auth/BcryptPasswordHasher.test.ts
+PASS frontend/tests/Infrastructure/Password/PasswordStrengthEstimator.test.ts
+PASS tests/Infrastructure/Licensing/FileInstallationLicense.test.ts
+PASS tests/EntryPoint/AuthenticationController.test.ts
+PASS tests/Application/Identity/UseCase/Authentication.test.ts
+PASS tests/Domain/Catalog/ResourceCalendar.test.ts
+PASS tests/Application/Catalog/ResourceManagement.test.ts
+PASS tests/Domain/Booking/Booking.test.ts
+PASS tests/Infrastructure/Persistence/PrismaUserRepository.test.ts
+PASS tests/Application/Booking/BookingAccess.test.ts
+PASS tests/Domain/Catalog/Catalog.test.ts
+PASS tests/Infrastructure/Auth/JwtTokenService.test.ts
+PASS tests/Infrastructure/Persistence/PrismaBookingRepository.test.ts
+PASS tests/Domain/Identity/Service/RegisterUserService.test.ts
+PASS tests/Infrastructure/Cryptography/AesGcmNoteCipher.test.ts
+PASS tests/Domain/Catalog/ResourceDetails.test.ts
+PASS tests/Domain/Booking/RescheduleBooking.test.ts
+PASS tests/Infrastructure/Persistence/PrismaResourceRepository.test.ts
+PASS tests/Infrastructure/Persistence/AccountManagement.test.ts
+PASS tests/Domain/Booking/SealedNoteVO.test.ts
+PASS tests/Infrastructure/Transport/HttpTelemetry.test.ts
+PASS frontend/tests/Infrastructure/Transport/RegistrationHttpGateway.test.ts
+PASS tests/Infrastructure/Persistence/PrismaBookingNoteRepository.test.ts
+PASS tests/Application/Identity/UseCase/AccountManagement.test.ts
+PASS tests/Infrastructure/Configuration/FileNoteKeyring.test.ts
+PASS tests/Application/Catalog/ResourceAccess.test.ts
+PASS frontend/tests/ResourceTransport.test.ts
+PASS tests/EntryPoint/RegistrationController.test.ts
+PASS tests/Domain/Identity/Service/AuthenticateUserService.test.ts
+PASS tests/Infrastructure/Configuration/RegistrationConfiguration.test.ts
+PASS tests/Infrastructure/Configuration/LocalPasswordBlocklist.test.ts
+PASS tests/Infrastructure/Configuration/AuthenticationConfiguration.test.ts
+PASS tests/Domain/SharedKernel/TimeRangeVO.test.ts
+PASS tests/Domain/Identity/Service/ChangePasswordService.test.ts
+PASS tests/Domain/Identity/ValueObject/EmailVO.test.ts
+PASS tests/Infrastructure/Persistence/PrismaSessionRepository.test.ts
+PASS tests/EntryPoint/HttpErrorResponder.test.ts
+PASS tests/Application/Identity/UseCase/RegisterUserUC.test.ts
+PASS frontend/tests/Domain/Identity/Service/RegistrationInputService.test.ts
+PASS tests/Domain/Booking/BookingNoteVO.test.ts
+PASS tests/Application/Booking/PrivateNote.test.ts
+PASS tests/Domain/Identity/Service/PasswordPolicyService.test.ts
+PASS tests/Domain/Identity/ValueObject/UserIdVO.test.ts
+PASS tests/Domain/Identity/ValueObject/PasswordHashVO.test.ts
+PASS tests/EntryPoint/RegistrationRateLimiter.test.ts
+PASS frontend/tests/SessionHttpGateway.test.ts
+PASS tests/Domain/Identity/ValueObject/UserRoleVO.test.ts
+PASS tests/Domain/Identity/Entity/User.test.ts
+PASS tests/Application/Catalog/LicenseGate.test.ts
+PASS tests/Application/Identity/Dto/UserDTO.test.ts
+PASS frontend/tests/Domain/Booking/BookingSelectionService.test.ts
+PASS tests/Infrastructure/Auth/UuidUserIdFactory.test.ts
+PASS tests/Domain/SharedKernel/DomainEvents.test.ts
+PASS frontend/tests/Application/Identity/UseCase/RegisterUserUC.test.ts
+PASS frontend/tests/WorkspaceHttpGateway.test.ts
+PASS frontend/tests/PrivateNoteTransport.test.ts
+
+Test Suites: 59 passed, 59 total
+Tests:       422 passed, 422 total
+Snapshots:   0 total
+Time:        7.976 s
+Ran all test suites.
+Test results written to: ../lab15-16/evidence/final-jest.json

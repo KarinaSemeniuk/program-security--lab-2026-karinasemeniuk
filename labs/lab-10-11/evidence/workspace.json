@@ -1,0 +1,169 @@
+{
+  "result": "passed",
+  "checks": [
+    {
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/auth/login",
+      "status": 200
+    },
+    {
+      "path": "/resources",
+      "status": 200
+    },
+    {
+      "path": "/resources",
+      "status": 401
+    },
+    {
+      "path": "/resources",
+      "status": 403
+    },
+    {
+      "path": "/admin/resources",
+      "status": 403
+    },
+    {
+      "path": "/resources",
+      "status": 400
+    },
+    {
+      "path": "/resources",
+      "status": 201
+    },
+    {
+      "path": "/bookings",
+      "status": 401
+    },
+    {
+      "path": "/bookings",
+      "status": 403
+    },
+    {
+      "path": "/bookings",
+      "status": 400
+    },
+    {
+      "path": "/bookings",
+      "status": 201
+    },
+    {
+      "path": "/bookings",
+      "status": 409
+    },
+    {
+      "path": "direct-database-overlap",
+      "status": "rejected"
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/availability",
+      "status": 200
+    },
+    {
+      "path": "/bookings",
+      "status": 201
+    },
+    {
+      "path": "/bookings/1ce08ab1-a8df-44b5-bc29-f19b98373fe2/cancel",
+      "status": 403
+    },
+    {
+      "path": "/bookings/mine",
+      "status": 400
+    },
+    {
+      "path": "/bookings/mine",
+      "status": 200
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/bookings",
+      "status": 403
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/bookings",
+      "status": 200
+    },
+    {
+      "path": "/bookings/1ce08ab1-a8df-44b5-bc29-f19b98373fe2/cancel",
+      "status": 200
+    },
+    {
+      "path": "/bookings/1ce08ab1-a8df-44b5-bc29-f19b98373fe2/cancel",
+      "status": 409
+    },
+    {
+      "path": "/bookings",
+      "status": 201
+    },
+    {
+      "path": "/bookings/9d407e8b-3414-46c2-a718-511e4486cc29/cancel",
+      "status": 409
+    },
+    {
+      "path": "/bookings/9d407e8b-3414-46c2-a718-511e4486cc29/cancel",
+      "status": 200
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/deactivate",
+      "status": 403
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/deactivate",
+      "status": 200
+    },
+    {
+      "path": "/resources",
+      "status": 200
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/availability",
+      "status": 404
+    },
+    {
+      "path": "/bookings",
+      "status": 409
+    },
+    {
+      "path": "/resources/92f20aa9-651a-44f9-a898-a7f78eb4962c/bookings",
+      "status": 200
+    },
+    {
+      "path": "/resources",
+      "status": 403
+    },
+    {
+      "path": "/bookings/mine",
+      "status": 401
+    },
+    {
+      "path": "/bookings/170861a8-9715-45f0-b2d6-ebac5302091b/cancel",
+      "status": 409
+    },
+    {
+      "path": "/bookings/cb4d5597-7909-4056-b046-5879ca8ec1db/cancel",
+      "status": 200
+    },
+    {
+      "path": "/bookings",
+      "status": 409
+    },
+    {
+      "path": "/bookings",
+      "status": 409
+    },
+    {
+      "path": "/bookings",
+      "status": 409
+    },
+    {
+      "path": "/bookings",
+      "status": 429
+    }
+  ]
+}
