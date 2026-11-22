@@ -20,7 +20,7 @@ Out of scope for this model:
 
 ## System Overview
 
-RoomBook consists of a React SPA client, a stateless Express API server, and a PostgreSQL database accessed through Prisma — see `architecture/overview.md` for the full component diagram. The client and the API communicate over HTTPS/JSON; authentication is via a signed JWT attached to each request. The API is the only component with direct database access.
+RoomBook consists of a React SPA client, an Express API server with PostgreSQL session state, and a PostgreSQL database accessed through Prisma — see `architecture/overview.md` for the full component diagram. The client and the API communicate over HTTPS/JSON; authentication is via a signed JWT attached to each request. The API is the only component with direct database access.
 
 ### DFD elements
 
@@ -82,7 +82,39 @@ The following gaps surfaced directly from this analysis and are tracked here rat
 
 1. **No rate limiting** on authentication or booking-creation endpoints (contributes to D at `F1`, `D1`, and `P2`). Not yet reflected as a non-functional requirement — should be added to `specification/non-functional-requirements.md` before implementation, per Specification-Driven Development.
 2. **No explicit audit trail** for status-changing actions beyond `Booking.createdAt` (contributes to R at `E1` and `P2`). A candidate future addition: a `BookingStatusChangedDE`-driven audit log (the event already exists conceptually in `internal_spec/Booking/business_logic.md`; it is simply not yet persisted as a queryable log).
-3. **JWT storage location on the client** is not yet finalized in `guide/authentication.md` (contributes to I at `P1`); this threat model recommends an `httpOnly` cookie over `localStorage` specifically to reduce XSS-driven token theft, to be confirmed as an explicit decision in `architecture/context-diagram.md` before implementation.
-4. **No server-side token revocation**, already noted as an accepted exception in `security/security_policy.md` §11 — kept here as the threat it corresponds to (an attacker possessing a stolen, still-valid JWT cannot be locked out before expiry).
+3. **JWT storage — resolved 2026-10-30:** host-only HttpOnly SameSite=Strict cookies; Secure for HTTPS. Cookie-authenticated mutations require exact Origin and JSON. XSS can still invoke actions within an authenticated page.
+4. **Token revocation — resolved 2026-10-30:** PostgreSQL sessions are checked on every protected request; logout deletes the active session before succeeding.
 
 These gaps feed back into `specification/non-functional-requirements.md` and `security/security_policy.md` as they are addressed, per the consistency-check rule in `policy/project_documentation_policy.md`.
+
+## Authentication control update (2026-10-30)
+
+Login now has a bounded local 10/minute/direct-IP limiter. Registration remains
+5/15 minutes. Booking endpoints and their limiter remain unimplemented. Shared
+rate limiting is still required before multi-instance deployment. Current profile
+is the only protected application endpoint; Catalog/Booking authorization is
+planned for lab 05. Revoke-all-sessions and durable security audit are future work.
+
+## Catalog/Booking control update (2026-10-30)
+
+Owner-only history/cancellation, Admin-only resource mutations/history and current
+session/role resolution mitigate IDOR/role escalation. Exact input contracts reject
+injected userId/status/role fields. Cookie mutations enforce trusted Origin and
+JSON. Resource locks plus PostgreSQL exclusion prevent double-booking races.
+Booking creation enforces 10/minute/direct-IP attempts. Rate limiting is still
+process-local and domain event delivery is not an audit log. Local SQL operators
+remain trusted; privileged direct database writes are outside API authorization.
+
+## Notes, entitlements and release controls (2026-10-30)
+
+Database-only disclosure of private notes is mitigated by AES-GCM keys outside DB.
+Owner binding prevents non-owner/Admin reads; authenticated context/revision prevents
+cross-record copying and stale API overwrites. Tag failure releases no plaintext.
+Full authentic database rollback and API/OS compromise are outside this protection.
+
+Signed installation claims are checked server-side against a configured RSA trust
+key and local binding; copying a signed license to another binding, expiry, altered
+payloads and absent capabilities fail closed. The server clock/trust configuration
+is privileged. Separately signed release inventories detect tampering/unlisted files
+before deployment. Build-only client obfuscation raises inspection cost but cannot
+protect secrets placed in a browser; none are placed there.

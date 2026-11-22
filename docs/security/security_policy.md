@@ -69,7 +69,7 @@ For a solo-developed course project, roles are formally defined even though curr
 - **Secure by default.** A fresh `.env` with placeholder values must never start the application successfully against a real database — see §5 on secret handling. CORS defaults to the single configured frontend origin, never to `*`.
 - **Defense in depth.** The booking-overlap invariant (FR-10 / NFR-7) is enforced both in application code and as a database-level exclusion constraint, so a bug in one layer does not by itself break the guarantee.
 - **Fail securely.** On an unhandled error, the API returns a generic `500` with no internal detail (see `guide/error-handling.md`) rather than defaulting to verbose output.
-- **Minimize attack surface.** The system does not implement its own cryptography, its own session store, or its own file-upload handling — functionality is not added without a corresponding functional requirement (see `policy/project_policy.md` §2.3 on what is explicitly not part of the stack).
+- **Minimize attack surface.** The system uses platform/library cryptographic primitives, PostgreSQL session revocation, and does not implement file uploads — functionality is not added without a corresponding functional requirement (see `policy/project_policy.md` §2.3 on what is explicitly not part of the stack).
 - **No secrets in source code.** Passwords, API keys, the JWT signing secret and the database connection string are never committed to the repository, in any form, including in test fixtures or example data.
 
 ## 5. Secure Development Environment
@@ -95,7 +95,7 @@ For a solo-developed course project, roles are formally defined even though curr
 - **Validation and sanitization.** Every external input (API request body, query parameters, path parameters) is treated as untrusted and validated for type, format and range on the server, independently of any client-side validation (NFR-6).
 - **Authentication.** Implemented via a signed JWT issued on successful sign-in; passwords are never compared or stored in plaintext.
 - **Authorization.** Every protected operation checks the caller's role server-side via shared middleware (`policy/project_policy.md`, SharedKernel's "Shared authorization check"); the client's claim about its own role is never trusted.
-- **Session management.** Sessions are stateless (the JWT itself is the credential); there is currently no server-side token-revocation list, so sign-out is client-side token discard only — this is a documented limitation (see `security/threat_model.md`), acceptable because tokens are short-lived (`JWT_EXPIRES_IN`).
+- **Session management.** JWTs expire after 900 seconds and are carried in HttpOnly SameSite=Strict cookies. PostgreSQL active-session checks enforce logout revocation and current blocked status; cookie mutations require a trusted Origin. See `guide/authentication.md`.
 - **Cryptography.** Password hashing uses bcrypt; JWT signing uses a well-maintained library (e.g. `jsonwebtoken`) with a secret of adequate length read from the environment. RoomBook does not implement its own cryptographic primitives under any circumstance.
 - **Error handling.** Internal errors never leak stack traces, SQL statements, or other implementation detail in an API response (`guide/error-handling.md`).
 - **Logging.** Passwords (plaintext or hashed), JWTs, and full request bodies of authentication endpoints are never written to logs.
@@ -134,7 +134,7 @@ RoomBook is designed for eventual multi-user operation, so its privacy rules are
 |---|---|---|---|
 | No CI pipeline enforcing checks automatically yet | Coursework project at an early stage; checks are run locally instead | Developer runs `eslint`, `tsc --noEmit`, and the full test suite locally before every push | Introducing GitHub Actions (or equivalent) |
 | No database backups | No production data; local development database only | Database can be recreated from migrations with no data-loss impact | Any real deployment with user-entered data |
-| No server-side JWT revocation | Low risk at current scale; tokens are short-lived | `JWT_EXPIRES_IN` kept short | Addition of a "revoke all sessions" feature requirement |
+| Previous lack of token revocation — resolved 2026-10-30 | PostgreSQL active sessions enforce FR-3 | Current-session logout and 900-second expiry | Revoke-all-sessions remains future work |
 
 ## 12. Related Documents
 
@@ -148,3 +148,13 @@ Any change to the system's architecture or technology stack triggers a review of
 ## 13. Final Provisions
 
 This policy takes effect upon approval by the project owner. It is reviewed after any significant change to the architecture, the threat model, the technology stack, or the development process, and at minimum once per course module that introduces new security-relevant functionality. Changes to this policy are committed separately with the `[POLICY]` prefix and a version bump, following the same rule as `policy/project_policy.md`. In case of a conflict between this policy and another project document, the stricter constraint applies until the documents are reconciled.
+
+## Implemented cryptographic/service controls (2026-10-30)
+
+Node/OpenSSL AES-GCM protects private notes with context-bound authentication,
+separate owner-only key files and coordinated rotation. RSA-PSS/SHA-256 protects
+installation capability artifacts and separately keyed SHA-256 release inventories.
+No secret material is embedded in frontend/builds. Client transformation is an
+analysis-cost measure, never an authorization or cryptographic boundary.
+The local coursework deployment still requires operational backup, key custody,
+TLS and shared rate limiting before real-user multi-instance production use.

@@ -75,3 +75,14 @@ As a coursework project with no real end users yet, formal data-subject rights (
 ## Data Minimization
 
 Registration collects only an email and a password — no name, phone number, or other profile field is requested unless a future functional requirement explicitly justifies it. Any new field proposed for collection is checked against this principle before being added to the `User` entity (`internal_spec/Identity/business_logic.md`).
+
+## Private booking notes (2026-10-30)
+
+Optional owner-entered note content is stored as authenticated ciphertext and is
+returned only to its authenticated owner on an explicit read. Other users, including
+non-owner Admin, cannot access it through API. History/availability projections omit
+notes. Browser drafts are transient, not browser-storage records; logging excludes
+note content, encryption keys and plaintext. Keys remain separate from DB and Git.
+Deletion of a booking by a trusted maintenance operator cascades its encrypted note;
+ordinary cancellation preserves private history and note access. No public account/
+booking erasure endpoint has been introduced. See private-notes.md for threat limits.

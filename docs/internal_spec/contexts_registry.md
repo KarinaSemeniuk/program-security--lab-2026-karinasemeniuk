@@ -7,6 +7,7 @@ Entry point into RoomBook's domain model. Every bounded context is registered he
 | [Identity](./Identity/business_logic.md) | User accounts, authentication, roles | `IDN` | Active | — |
 | [Catalog](./Catalog/business_logic.md) | Bookable resources and their availability rules | `CAT` | Active | — |
 | [Booking](./Booking/business_logic.md) | Reservation lifecycle and conflict rules | `BKG` | Active | Identity, Catalog |
+| [Licensing](./Licensing/business_logic.md) | Signed installation capability and validity rules | `LIC` | Active | — |
 | [SharedKernel](./SharedKernel/business_logic.md) | Concepts and abstractions shared by more than one context | `CORE` | Active | — (depended upon by all) |
 
 ## Context relationships
@@ -27,3 +28,8 @@ Identity ──┐
 2. Assign it a unique three-letter segment token and add a row to the table above.
 3. Add the corresponding `Domain/[Context]/` and `Application/[Context]/` folders per `policy/project_policy.md` §4.
 4. Update the relationship diagram above if the new context depends on, or is depended on by, an existing one.
+
+Licensing is independent at Domain level. Application/BookingCatalogLicensing,
+Application/BookingLicensing and Application/CatalogLicensing compose entitlement
+checks with the existing independently authorized use cases. No Domain context
+imports cryptographic libraries or another context’s infrastructure.

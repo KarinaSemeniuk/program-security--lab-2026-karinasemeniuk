@@ -15,7 +15,7 @@
 
 | Entity | Basic Fields | Description | Invariants |
 |---|---|---|---|
-| `Booking` *(Aggregate Root)* | id, userId, resourceId, timeRange (startAt, endAt), status, createdAt | The sole aggregate of this context; represents one reservation. | - `id` is immutable once assigned.<br>- `userId` and `resourceId` are immutable once assigned — a booking cannot be reassigned to a different user or resource.<br>- `timeRange` is immutable once the booking is `CONFIRMED`; cancelling and re-booking is modeled as cancel + create, not as an edit.<br>- `status` changes only via the transitions in "Status Lifecycle" below.<br>- A newly created `Booking` always starts in status `PENDING`. |
+| `Booking` *(Aggregate Root)* | id, userId, resourceId, timeRange (startAt, endAt), status, createdAt | The sole aggregate of this context; represents one reservation. | - `id` is immutable once assigned.<br>- `userId` and `resourceId` are immutable once assigned — a booking cannot be reassigned to a different user or resource.<br>- `timeRange` changes only through guarded revision-checked rescheduling; failed movement leaves the original range intact.<br>- `status` changes only via the transitions in "Status Lifecycle" below.<br>- A newly created `Booking` always starts in status `PENDING`. |
 
 ## Status Lifecycle
 
@@ -107,3 +107,40 @@ Triggered only on meaningful state changes, not on every field write. Payloads n
 ### Async
 
 - `CompleteBookingService` runs on a scheduler (e.g. a periodic job every few minutes), not synchronously on read, since a booking's completion is not time-critical to the millisecond.
+
+## Implemented slice (2026-10-30)
+
+- Resource and Booking aggregates, typed IDs, SlotDurationVO, BookingStatusVO and
+  shared TimeRangeVO implement the documented invariants. Names are trimmed by
+  CreateResourceService; capacity 1–1000, name 1–100 Unicode code points.
+- Catalog supports metadata editing and activation transitions with revisions. Booking times and status are unchanged by resource edits; identity and slot duration remain immutable.
+- Booking.cancel applies CancelBookingDPolicy under the persistence row lock;
+  CreateBookingService applies CreateBookingDPolicy, reused inside placement's lock.
+- CompleteBookingService is internal and scheduled; terminal transition checks are
+  on the aggregate. Completion has no domain events in this release.
+- Cross-context CreateBookingUC/GetResourceAvailabilityUC/ListBookingsForResourceUC
+  live in Application/BookingCatalog. Catalog Domain never imports Booking.
+- Availability consumes only shared time ranges, never account IDs. Private history
+  includes a minified resource label so deactivation does not lose the display name.
+- Resource/booking access uses current Identity session/account data. Admin inherits
+  User actions; only Admin reads inactive resources and resource-wide booking history.
+- Commands/queries and safe DTOs are separate from HTTP. See guide/access-control.md
+  for exact current route contracts, pagination, limits and the UTC scheduling rule.
+- No additional sensitive free-text booking fields were introduced in this slice.
+
+## Owner-only private notes (2026-10-30)
+
+FR-15–FR-19 introduce a separate private note, not a cancellation-reason field.
+BookingNoteVO validates exact text. IBookingNoteRepository/INoteCipher are outward
+contracts; read/save use cases use the authenticated owner, without an Admin bypass.
+The separate booking_notes table never enters public/history DTOs. AES-GCM binds
+booking, owner, revision and format/key ID; failed authentication yields no plaintext
+and blocks overwrites. See guide/private-notes.md for keys, rotation and threat limits.
+
+## Atomic movement and filtered history
+
+Booking.reschedule preserves identity, owner, resource, creation time, status and private note. Current PENDING/CONFIRMED status, future original start, ownership/cutoff, expected interval revision and all target creation rules must pass before mutation. Owners of active bookings need at least two hours until original start; Admin bypasses that cutoff but cannot move an already started booking. Interval revisions advance only on movement; cancellation/terminal guards reject stale moves independently.
+
+PrismaBookingRepository locks resource first, then booking, rereads current state, excludes the booking itself from occupied intervals and commits the new timestamps/revision together. The exclusion constraint remains the final overlap guard. Booking.Rescheduled emits old/new intervals only after commit; the no-subscriber dispatcher is not an audit log. Note AAD binds stable booking/owner identifiers rather than time, so movement preserves decryptability.
+
+Owner history filters all/upcoming/past/cancelled apply inside the database before pagination/count. Upcoming includes active bookings with end after the request clock, ordered soonest first; past excludes cancelled and uses end <= clock. Admin date-bound history remains UTC.

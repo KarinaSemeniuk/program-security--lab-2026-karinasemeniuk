@@ -7,7 +7,7 @@ whoever provisions and runs it.
 
 ## Components
 
-- **Backend** — a stateless Node.js process (or container image),
+- **Backend** — a Node.js process with session state shared through PostgreSQL (or container image),
   horizontally scalable behind a load balancer (supports NFR-9).
 - **Frontend** — a static build produced by Vite, served from a static
   host or CDN, independent of the backend's deployment lifecycle.

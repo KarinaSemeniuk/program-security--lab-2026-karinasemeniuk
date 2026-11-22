@@ -50,3 +50,26 @@ is deliberately avoided).
   gap by `security/threat_model.md` — Denial-of-Service entries for
   `F1`, `D1` and `P2` — and recorded here before implementation, per
   Specification-Driven Development.)*
+
+## Registration controls — REGISTRATION-SECURITY
+
+- Registration requests shall contain at most 8 KiB of JSON and shall not use
+  compressed request bodies.
+- Registration shall permit at most five attempts from one direct client address
+  in a 15-minute window and return HTTP 429 on further attempts.
+- The local coursework implementation shall bound address tracking to 5000
+  entries. Shared rate limiting is required before a multi-instance deployment.
+- Browser requests shall be restricted to the exact configured frontend origin;
+  client-supplied proxy headers shall not change the registration quota identity.
+
+## Authentication sessions — AUTHENTICATION-SECURITY
+
+- Sign-in accepts exactly email and password strings, at most 8 KiB uncompressed
+  JSON; at most ten attempts per minute per direct client address.
+- Invalid credentials (including unknown and blocked accounts) return the same 401.
+- The access token expires after 900 seconds; no refresh token is issued.
+- JWT cookies are HttpOnly, SameSite=Strict, host-only, Path=/api; Secure outside
+  loopback HTTP development. Browser storage never receives the credential.
+- Protected requests check PostgreSQL session state and current account status.
+  Logout revokes the current session across server instances before succeeding.
+- Cookie-authenticated mutations require an exact trusted Origin and JSON.

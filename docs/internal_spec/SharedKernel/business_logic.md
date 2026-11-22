@@ -60,3 +60,20 @@ A single Express middleware resolves the caller's role from the access token and
 ## Change policy
 
 Because a change here affects every context that depends on it, any modification to `SharedKernel` requires reviewing all known consumers (currently: `Identity`, `Catalog`, `Booking`) before merging, and is called out explicitly in the project-wide `CHANGELOG.md`, in addition to this context's own `changelog.md`.
+
+## Implemented registration foundations (2026-10-30)
+
+The registration slice implements IValueObject, IEntity, AValueObject,
+AEntityIdVO, IRoomBookException, IExceptionCodeRegistry, ARoomBookException
+and the first genuinely needed CoreExceptionRegistry.
+
+Core codes are allocated for invalid request bodies (1), unknown routes (2),
+oversized bodies (3), unsupported media types (4), HTTP request handling (5),
+invalid configuration (6), invalid entity identifiers (7), rejected origins (8)
+and exceeded attempt limits (9). Numeric allocations are immutable.
+
+Identity, Catalog and Booking now consume these foundations. Owner approval in
+chat on 2026-10-30 authorized TimeRangeVO, ADomainEvent and AEventEntity.
+TimeRangeVO owns immutable half-open overlap logic; ADomainEvent owns envelope
+metadata; AEventEntity deduplicates pending events by semantic key and drains them
+once after commit. These elements have no framework/library imports.

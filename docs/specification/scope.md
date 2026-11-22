@@ -9,7 +9,7 @@ coworking desks — through a responsive web application.
 ## In scope
 
 - User registration and authentication.
-- Resource catalog management (create, edit, deactivate a resource).
+- Resource catalog management (create, edit descriptive information, deactivate and reactivate a resource).
 - Viewing resource availability for a given time range.
 - Creating, viewing and cancelling bookings.
 - Administrative oversight of bookings across all resources.
