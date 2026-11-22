@@ -1,0 +1,23 @@
+{
+  "createdAt": "2026-10-29T22:24:49.644Z",
+  "nodeVersion": "v22.23.1",
+  "candidateCount": 20,
+  "bcryptCost": 12,
+  "results": [
+    {
+      "algorithm": "SHA-256",
+      "found": true,
+      "password": "pass: Семенюк",
+      "attempts": 20,
+      "elapsedMs": 1.341477999999995
+    },
+    {
+      "algorithm": "bcrypt",
+      "found": true,
+      "password": "pass: Семенюк",
+      "attempts": 20,
+      "elapsedMs": 7022.695261000001
+    }
+  ],
+  "timeRatio": 5235.04318445776
+}

@@ -1,0 +1,48 @@
+{
+  "result": "passed",
+  "generatedAt": "2026-10-30T19:27:45.629Z",
+  "nodeVersion": "v22.23.1",
+  "encoding": "UTF-8",
+  "original": "2026_КБЗІ-23-2_Семенюк_Каріна_варіант:08",
+  "modified": "2026_КБЗІ-23-2_Семенюк_Каріна_варіант:09",
+  "originalHex": "323032365fd09ad091d097d0862d32332d325fd0a1d0b5d0bcd0b5d0bdd18ed0ba5fd09ad0b0d180d196d0bdd0b05fd0b2d0b0d180d196d0b0d0bdd1823a3038",
+  "modifiedHex": "323032365fd09ad091d097d0862d32332d325fd0a1d0b5d0bcd0b5d0bdd18ed0ba5fd09ad0b0d180d196d0bdd0b05fd0b2d0b0d180d196d0b0d0bdd1823a3039",
+  "characters": 40,
+  "bytes": 64,
+  "sha256": {
+    "hash1": "cb7414193fb62581b0de91e7dd4acf9d9d58b0a4e0ba4f08e286af19ff539507",
+    "hash2": "3dc1bf21d635bf2f225cc611fbf23e2c2e8a93d699c5d909bd00af395f81e8ee",
+    "changedInputBits": 1,
+    "changedHashBits": 128,
+    "totalHashBits": 256
+  },
+  "hmacSha256": {
+    "key1": "847731b95a8fdc3bd607be50d10a8b3e2dd3b92da83bc22d48efdd2b8ccffe40",
+    "key2": "857731b95a8fdc3bd607be50d10a8b3e2dd3b92da83bc22d48efdd2b8ccffe40",
+    "changedKeyBits": 1,
+    "hmac1": "c79f371e349921689c8bc495aff8c4ab95cd153ae1ca2f9a57171148242fc263",
+    "hmac2": "9594de77950afe9d477d8e281bdde9a93b3735c7229610b19f662245d509038e",
+    "modifiedMessageHmac": "8d71c40aaa064311b5541900c5e2f79f9355de64ffb2ddc011cd8d6d399448b7",
+    "originalAccepted": true,
+    "changedMessageAccepted": false,
+    "changedKeyAccepted": false,
+    "changedHmacBits": 136,
+    "totalHmacBits": 256
+  },
+  "aesGcm": {
+    "algorithm": "aes-256-gcm",
+    "key": "a1ba49a1a135aa0836ea5f85da0ae01d144d698d58ebf10ea98a6c52cfdc5c10",
+    "nonce": "4fd242324fb60a4e78e65eb6",
+    "ciphertext": "61630a8343fbff2e851938fdbf8de5b114e09a800ef50ec31a82a41855bfc120c59fc58ac457cb8e85e2be6126c2beb68ab118c7b502895fa1cfcb08a61464d7",
+    "tag": "2e12873c59b3e3baad4f2fb9089d8fd5",
+    "aadHex": "",
+    "recovered": "2026_КБЗІ-23-2_Семенюк_Каріна_варіант:08",
+    "modifiedCiphertext": "60630a8343fbff2e851938fdbf8de5b114e09a800ef50ec31a82a41855bfc120c59fc58ac457cb8e85e2be6126c2beb68ab118c7b502895fa1cfcb08a61464d7",
+    "modifiedByteIndex": 0,
+    "changedCiphertextBits": 1,
+    "corruptionRejected": true,
+    "rejectionMessage": "Unsupported state or unable to authenticate data",
+    "plaintextReturnedOnCorruption": false
+  },
+  "note": "Disposable experiment keys, independent from RoomBook secrets. Each run uses new random keys and nonce."
+}

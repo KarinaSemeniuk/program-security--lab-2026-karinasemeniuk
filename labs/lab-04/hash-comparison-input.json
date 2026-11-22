@@ -1,0 +1,30 @@
+{
+  "createdAt": "2026-10-29T22:23:38.548Z",
+  "nodeVersion": "v22.23.1",
+  "password": "pass: Семенюк",
+  "cost": 12,
+  "dictionary": [
+    "123456",
+    "password",
+    "qwerty",
+    "admin",
+    "12345678",
+    "roomBook",
+    "RoomBook2026",
+    "Karina",
+    "karina2026",
+    "Semeniuk",
+    "semeniuk",
+    "Семенюк",
+    "pass: semeniuk",
+    "pass: Semeniuk",
+    "pass: Каріна",
+    "pass: Семенюк1",
+    "pass: Семенюк2026",
+    "pass:Семенюк",
+    "Pass: Семенюк",
+    "pass: Семенюк"
+  ],
+  "sha256Hash": "42e07cd788cca8f477bff80b40c12f7dcd394442e0907c6c6c337d3c980965b7",
+  "bcryptHash": "$2b$12$7zjPPz.KJgkFrbYUu9OqYem1DdDJINFB9nkugYi68.hm/J8JnZ9cq"
+}

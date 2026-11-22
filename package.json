@@ -1,0 +1,65 @@
+{
+  "name": "roombook",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Room and workspace booking application",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": "22.x",
+    "npm": "10.x"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "start": "node --env-file=.env dist/Framework/main.js",
+    "test": "jest --runInBand",
+    "test:types": "tsc -p tsconfig.test.json --noEmit",
+    "test:coverage": "jest --runInBand --coverage",
+    "check:registration": "node labs/lab-04/check-registration.mjs",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "typecheck:frontend": "npm --prefix frontend run typecheck",
+    "build:frontend": "npm --prefix frontend run build",
+    "check:authentication": "node --env-file=.env labs/lab-04/check-authentication.mjs",
+    "admin:promote": "node --env-file=.env scripts/promote-admin.mjs",
+    "check:workspace": "node --env-file=.env labs/lab-05/check-workspace.mjs",
+    "seed:catalog": "node --env-file=.env scripts/seed-catalog.mjs",
+    "check:availability": "node --env-file=.env labs/lab-05/check-availability-performance.mjs",
+    "notes:init": "node --env-file=.env scripts/init-note-keys.mjs",
+    "notes:rotate": "node --env-file=.env scripts/rotate-note-keys.mjs",
+    "check:notes": "node --env-file=.env labs/lab-06/check-private-notes.mjs",
+    "license:init": "node --env-file=.env scripts/installation-license.mjs init",
+    "license:issue": "node --env-file=.env scripts/installation-license.mjs issue",
+    "check:client-protection": "node labs/lab-09/check-client-protection.mjs",
+    "release:sign": "node scripts/release-artifact.mjs sign",
+    "release:verify": "node scripts/release-artifact.mjs verify",
+    "check:release-integrity": "node scripts/check-release-integrity.mjs",
+    "check:license": "node --env-file=.env labs/lab-08/check-installation-license.mjs",
+    "check:build-secrets": "node --env-file=.env scripts/check-build-secrets.mjs",
+    "check:resources": "node --env-file=.env scripts/check-resource-management.mjs",
+    "check:service": "node --env-file=.env scripts/check-service-functionality.mjs"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "5.0.2",
+    "@types/express": "4.17.21",
+    "@types/jest": "29.5.14",
+    "@types/jsonwebtoken": "9.0.7",
+    "@types/node": "22.10.2",
+    "jest": "29.7.0",
+    "prisma": "5.20.0",
+    "ts-jest": "29.2.5",
+    "typescript": "5.6.3"
+  },
+  "dependencies": {
+    "@prisma/client": "5.20.0",
+    "bcrypt": "6.0.0",
+    "express": "4.22.3",
+    "jsonwebtoken": "9.0.2"
+  },
+  "imports": {
+    "#domain/*": "./dist/Domain/*.js",
+    "#application/*": "./dist/Application/*.js",
+    "#infrastructure/*": "./dist/Infrastructure/*.js",
+    "#entrypoint/*": "./dist/EntryPoint/*.js"
+  }
+}

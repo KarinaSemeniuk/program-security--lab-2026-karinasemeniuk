@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+
+  @@map("user_role")
+}
+
+model UserModel {
+  id           String   @id @default(uuid()) @db.Uuid
+  email        String   @unique @db.VarChar(254)
+  passwordHash String   @map("password_hash") @db.VarChar(60)
+  role         UserRole @default(USER)
+  isBlocked    Boolean  @default(false) @map("is_blocked")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  bookings BookingModel[]
+  sessions SessionModel[]
+
+  @@map("users")
+}
+
+model SessionModel {
+  id String @id @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(3)
+  user UserModel @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  @@map("booking_status")
+}
+enum ResourceType {
+  ROOM
+  DESK
+  @@map("resource_type")
+}
+model ResourceModel {
+  timeZone String @default("Europe/Kyiv") @map("time_zone") @db.VarChar(100)
+  weekly Json @default("[{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440},{\"open\":0,\"close\":1440}]")
+  closedDates String[] @default([]) @map("closed_dates")
+  type ResourceType @default(ROOM)
+  description String @default("") @db.Text
+  location String @default("") @db.VarChar(200)
+  equipment String[] @default([])
+  revision Int @default(0)
+  id String @id @default(uuid()) @db.Uuid
+  name String @db.VarChar(100)
+  capacity Int
+  minSlotMinutes Int @map("min_slot_minutes")
+  isActive Boolean @default(true) @map("is_active")
+  bookings BookingModel[]
+  @@map("resources")
+}
+model BookingModel {
+  revision Int @default(0)
+  id String @id @default(uuid()) @db.Uuid
+  userId String @map("user_id") @db.Uuid
+  resourceId String @map("resource_id") @db.Uuid
+  startAt DateTime @map("start_at") @db.Timestamptz(3)
+  endAt DateTime @map("end_at") @db.Timestamptz(3)
+  status BookingStatus @default(PENDING)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  privateNote BookingNoteModel?
+  user UserModel @relation(fields: [userId], references: [id], onDelete: Restrict)
+  resource ResourceModel @relation(fields: [resourceId], references: [id], onDelete: Restrict)
+  @@index([userId, startAt])
+  @@index([resourceId, startAt])
+  @@index([status, endAt])
+  @@map("bookings")
+}
+
+model BookingNoteModel {
+  bookingId String @id @map("booking_id") @db.Uuid
+  formatVersion Int @map("format_version")
+  keyId String @map("key_id") @db.VarChar(64)
+  nonce String @db.VarChar(24)
+  ciphertext String @db.Text
+  tag String @db.VarChar(32)
+  revision Int
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(3)
+  booking BookingModel @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  @@unique([keyId, nonce])
+  @@map("booking_notes")
+}

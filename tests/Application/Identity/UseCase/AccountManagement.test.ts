@@ -1,0 +1,23 @@
+import { ChangePasswordUC } from "#application/Identity/UseCase/ChangePasswordUC";
+import { ChangePasswordAC } from "#application/Identity/Command/ChangePasswordAC";
+import { AuthenticateUserService } from "#domain/Identity/Service/AuthenticateUserService";
+import { ChangePasswordService } from "#domain/Identity/Service/ChangePasswordService";
+import { PasswordPolicyService } from "#domain/Identity/Service/PasswordPolicyService";
+import { PasswordHashVO } from "#domain/Identity/ValueObject/PasswordHashVO";
+import { InvalidCurrentPasswordException } from "#domain/Identity/Exception/InvalidCurrentPasswordException";
+import { AccountConflictException } from "#domain/Identity/Exception/AccountConflictException";
+import { ManageAccountsUC } from "#application/Identity/UseCase/ManageAccountsUC";
+import { ListAccountsAQ } from "#application/Identity/Query/ListAccountsAQ";
+import { AccountAccessDeniedException } from "#domain/Identity/Exception/AccountAccessDeniedException";
+import { account } from "../../../fixtures/account";
+import { UserRole } from "#domain/Identity/Enum/UserRole";
+const user=account();const actor={id:user.getId().getValue(),email:user.getEmail().getValue(),role:UserRole.User,createdAt:user.getCreatedAt().toISOString()};
+describe("application.identity.account management",()=>{
+ const repository={changePassword:jest.fn(),revokeOthers:jest.fn(),accounts:jest.fn(),setBlocked:jest.fn()};const verifier={verify:jest.fn()};const hasher={hash:jest.fn()};
+ const passwords=new ChangePasswordService(new PasswordPolicyService(new Set()),hasher);const authentication=new AuthenticateUserService({findByEmail:async()=>user,findById:async()=>user},verifier);const change=new ChangePasswordUC(authentication,passwords,repository);
+ beforeEach(()=>{Object.values(repository).forEach(mock=>mock.mockReset());verifier.verify.mockReset().mockResolvedValue(true);hasher.hash.mockReset().mockResolvedValue(new PasswordHashVO("$2b$12$"+"b".repeat(53)));repository.changePassword.mockResolvedValue(true);});
+ it("rejects incorrect current password before hashing or writing",async()=>{verifier.verify.mockResolvedValue(false);await expect(change.execute(new ChangePasswordAC(actor,"wrong password here","new long password here"))).rejects.toThrow(InvalidCurrentPasswordException);expect(hasher.hash).not.toHaveBeenCalled();expect(repository.changePassword).not.toHaveBeenCalled();});
+ it("uses server identity and verified credential snapshot for compare-and-swap",async()=>{await change.execute(new ChangePasswordAC(actor,"current password here","new long password here"));expect(repository.changePassword).toHaveBeenCalledWith(actor.id,user.getPasswordHash().getValue(),"$2b$12$"+"b".repeat(53));});
+ it("rejects concurrent replacement instead of silently overwriting it",async()=>{repository.changePassword.mockResolvedValue(false);await expect(change.execute(new ChangePasswordAC(actor,"current password here","new long password here"))).rejects.toThrow(AccountConflictException);});
+ it("denies a User directory request before any persistence lookup",()=>{expect(()=>new ManageAccountsUC(repository).list(new ListAccountsAQ(actor,0,""))).toThrow(AccountAccessDeniedException);expect(repository.accounts).not.toHaveBeenCalled();});
+});

@@ -1,0 +1,14 @@
+import { PrismaClient } from "@prisma/client";
+import { PrismaUserRepository } from "#infrastructure/Persistence/PrismaUserRepository";
+import { UserPersistenceWriteException } from "#infrastructure/Exception/UserPersistenceWriteException";
+import { AccountAccessDeniedException } from "#domain/Identity/Exception/AccountAccessDeniedException";
+jest.mock("@prisma/client",()=>({...jest.requireActual<typeof import("@prisma/client")>("@prisma/client"),PrismaClient:jest.fn()}));
+describe("infrastructure.persistence.account atomic changes",()=>{
+ const tx={$queryRaw:jest.fn(),userModel:{updateMany:jest.fn(),findUnique:jest.fn(),update:jest.fn()},sessionModel:{deleteMany:jest.fn()}};const transaction=jest.fn();let users:PrismaUserRepository;
+ beforeEach(()=>{Object.values(tx.userModel).forEach(mock=>mock.mockReset());tx.sessionModel.deleteMany.mockReset().mockResolvedValue({count:2});transaction.mockReset().mockImplementation(async(callback:(scope:typeof tx)=>Promise<unknown>)=>callback(tx));jest.mocked(PrismaClient).mockImplementation(()=>({$transaction:transaction,sessionModel:tx.sessionModel}) as unknown as PrismaClient);users=new PrismaUserRepository("postgresql://unit@localhost/unit");});
+ it("compares exact verified hash and revokes all sessions in the same transaction",async()=>{tx.userModel.updateMany.mockResolvedValue({count:1});expect(await users.changePassword("u","verified-old","new-hash")).toBe(true);expect(tx.userModel.updateMany).toHaveBeenCalledWith({where:{id:"u",passwordHash:"verified-old",isBlocked:false},data:{passwordHash:"new-hash"}});expect(tx.sessionModel.deleteMany).toHaveBeenCalledWith({where:{userId:"u"}});expect(tx.userModel.updateMany.mock.invocationCallOrder[0]).toBeLessThan(tx.sessionModel.deleteMany.mock.invocationCallOrder[0]!);});
+ it("does not revoke or overwrite after a concurrent credential replacement",async()=>{tx.userModel.updateMany.mockResolvedValue({count:0});expect(await users.changePassword("u","stale","new")).toBe(false);expect(tx.sessionModel.deleteMany).not.toHaveBeenCalled();});
+ it("wraps failed revocation so the transaction rolls back credential replacement",async()=>{tx.userModel.updateMany.mockResolvedValue({count:1});tx.sessionModel.deleteMany.mockRejectedValue(new Error("storage failed"));await expect(users.changePassword("u","old","new")).rejects.toThrow(UserPersistenceWriteException);});
+ it("excludes the current session when revoking other devices",async()=>{expect(await users.revokeOthers("u","keep")).toBe(2);expect(tx.sessionModel.deleteMany).toHaveBeenCalledWith({where:{userId:"u",id:{not:"keep"}}});});
+ it("rejects Admin targets under the user row lock without updates",async()=>{tx.userModel.findUnique.mockResolvedValue({id:"target",role:"ADMIN"});await expect(users.setBlocked("admin","target",true)).rejects.toThrow(AccountAccessDeniedException);expect(tx.userModel.update).not.toHaveBeenCalled();expect(tx.sessionModel.deleteMany).not.toHaveBeenCalled();});
+});

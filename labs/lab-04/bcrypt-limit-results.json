@@ -1,0 +1,120 @@
+{
+  "createdAt": "2026-10-29T22:22:05.985Z",
+  "nodeVersion": "v22.23.1",
+  "cost": 12,
+  "original": "2026_КБЗІ-23-2_Семенюк_8_",
+  "originalBytes": 36,
+  "suffix": "mfTosjPO1y",
+  "variants": [
+    {
+      "id": 1,
+      "description": "Базовий рядок",
+      "value": "2026_КБЗІ-23-2_Семенюк_8_____________________________________",
+      "bytes": 72,
+      "hash": "$2b$12$dcQV8yLHCuBfocjAOgEiLulaD650TGd3.TuLKUqC1abOI7YKIUGiq"
+    },
+    {
+      "id": 2,
+      "description": "Базовий + \"1\"",
+      "value": "2026_КБЗІ-23-2_Семенюк_8_____________________________________1",
+      "bytes": 73,
+      "hash": "$2b$12$dSXTuYMq3Z8zEruvjLyIJeD0ClELtJaXZbJT/cAkUCxOcYzUDt5AW"
+    },
+    {
+      "id": 3,
+      "description": "Базовий + 10 символів",
+      "value": "2026_КБЗІ-23-2_Семенюк_8_____________________________________mfTosjPO1y",
+      "bytes": 82,
+      "hash": "$2b$12$Idn723lmJ.jDoiG0urMjF.2bCMcYx7b8skqM3wK2G4IGtYf6jUnzC"
+    },
+    {
+      "id": 4,
+      "description": "Базовий без останнього _",
+      "value": "2026_КБЗІ-23-2_Семенюк_8____________________________________",
+      "bytes": 71,
+      "hash": "$2b$12$4l4OzJdSmuKbNSWNIrV5FuR.4oPgC.5a2ImnbuN5QCm2u//Kh6cV."
+    }
+  ],
+  "checks": [
+    {
+      "stringId": 1,
+      "hashId": 1,
+      "matches": true
+    },
+    {
+      "stringId": 1,
+      "hashId": 2,
+      "matches": true
+    },
+    {
+      "stringId": 1,
+      "hashId": 3,
+      "matches": true
+    },
+    {
+      "stringId": 1,
+      "hashId": 4,
+      "matches": false
+    },
+    {
+      "stringId": 2,
+      "hashId": 1,
+      "matches": true
+    },
+    {
+      "stringId": 2,
+      "hashId": 2,
+      "matches": true
+    },
+    {
+      "stringId": 2,
+      "hashId": 3,
+      "matches": true
+    },
+    {
+      "stringId": 2,
+      "hashId": 4,
+      "matches": false
+    },
+    {
+      "stringId": 3,
+      "hashId": 1,
+      "matches": true
+    },
+    {
+      "stringId": 3,
+      "hashId": 2,
+      "matches": true
+    },
+    {
+      "stringId": 3,
+      "hashId": 3,
+      "matches": true
+    },
+    {
+      "stringId": 3,
+      "hashId": 4,
+      "matches": false
+    },
+    {
+      "stringId": 4,
+      "hashId": 1,
+      "matches": false
+    },
+    {
+      "stringId": 4,
+      "hashId": 2,
+      "matches": false
+    },
+    {
+      "stringId": 4,
+      "hashId": 3,
+      "matches": false
+    },
+    {
+      "stringId": 4,
+      "hashId": 4,
+      "matches": true
+    }
+  ]
+}

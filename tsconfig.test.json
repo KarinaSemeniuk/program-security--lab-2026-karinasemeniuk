@@ -1,0 +1,44 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node10",
+    "rootDir": ".",
+    "types": [
+      "node",
+      "jest"
+    ],
+    "paths": {
+      "#domain/*": [
+        "src/Domain/*"
+      ],
+      "#application/*": [
+        "src/Application/*"
+      ],
+      "#infrastructure/*": [
+        "src/Infrastructure/*"
+      ],
+      "#entrypoint/*": [
+        "src/EntryPoint/*"
+      ],
+      "#ui-domain/*": [
+        "frontend/src/Domain/*"
+      ],
+      "#ui-application/*": [
+        "frontend/src/Application/*"
+      ],
+      "#ui-infrastructure/*": [
+        "frontend/src/Infrastructure/*"
+      ],
+      "#ui-entrypoint/*": [
+        "frontend/src/EntryPoint/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "frontend/src/**/*.ts",
+    "frontend/tests/**/*.ts"
+  ]
+}

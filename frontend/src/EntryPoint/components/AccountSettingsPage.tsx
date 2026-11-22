@@ -1,0 +1,16 @@
+import { useRef,useState,type ReactElement } from "react";
+import { WorkspaceUC } from "#ui-application/Booking/UseCase/WorkspaceUC";
+import { ICurrentUser } from "#ui-domain/Identity/Contract/ICurrentUser";
+/** @param props - Authenticated account and settings intents. @returns Password and other-device session controls. */
+export function AccountSettingsPage(props:{user:ICurrentUser;workspace:WorkspaceUC;onChanged:()=>void;onExpired:()=>void}):ReactElement {
+  const [current,setCurrent]=useState("");const [password,setPassword]=useState("");const [repeat,setRepeat]=useState("");const [visible,setVisible]=useState(false);const [busy,setBusy]=useState(false);const [message,setMessage]=useState("");const lock=useRef(false);
+  async function run(action:()=>Promise<void>) { if(lock.current)return;lock.current=true;setBusy(true);setMessage("");try{await action();}finally{lock.current=false;setBusy(false);} }
+  return <section className="workspace-panel account-settings"><h2>Мій обліковий запис</h2><p>{props.user.email}</p><h3>Змінити пароль</h3><p className="muted">Після зміни всі сеанси завершаться. Потрібно буде увійти з новим паролем.</p>
+    <form onSubmit={event=>{event.preventDefault();if(password!==repeat){setMessage("Повтор пароля не збігається.");return;}void run(async()=>{const result=await props.workspace.changePassword(current,password);if(result.status==="ok"){setCurrent("");setPassword("");setRepeat("");props.onChanged();}else{setMessage(result.message);if(result.unauthorized)props.onExpired();}});}}>
+      <div className="field"><label htmlFor="settings-current">Поточний пароль</label><input id="settings-current" type={visible?"text":"password"} autoComplete="current-password" required disabled={busy} value={current} onChange={event=>setCurrent(event.target.value)} /></div>
+      <div className="field"><label htmlFor="settings-new">Новий пароль</label><input id="settings-new" type={visible?"text":"password"} autoComplete="new-password" required disabled={busy} value={password} onChange={event=>setPassword(event.target.value)} /><small className="muted">Від 15 символів, до 72 байтів. Зараз: {[...password].length} символів, {new TextEncoder().encode(password).byteLength} байтів.</small></div>
+      <div className="field"><label htmlFor="settings-repeat">Повторіть новий пароль</label><input id="settings-repeat" type={visible?"text":"password"} autoComplete="new-password" required disabled={busy} value={repeat} onChange={event=>setRepeat(event.target.value)} /></div>
+      <label className="settings-toggle"><input type="checkbox" checked={visible} onChange={event=>setVisible(event.target.checked)} /> Показати паролі</label><button className="primary-button" disabled={busy}>Змінити пароль і завершити сеанси</button>
+    </form><h3>Інші пристрої</h3><p className="muted">Завершіть решту сеансів, залишивши цей відкритим.</p><button className="secondary-button" disabled={busy} onClick={()=>{void run(async()=>{const result=await props.workspace.revokeOthers();if(result.status==="ok")setMessage(`Інші сеанси завершено: ${result.data}. Поточний сеанс збережено.`);else{setMessage(result.message);if(result.unauthorized)props.onExpired();}});}}>Завершити інші сеанси</button>{message&&<p role="status" className="workspace-notice">{message}</p>}
+  </section>;
+}

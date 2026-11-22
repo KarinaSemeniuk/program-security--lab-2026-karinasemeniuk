@@ -1,0 +1,23 @@
+import { Booking } from "#domain/Booking/Entity/Booking";
+import { BookingIdVO } from "#domain/Booking/ValueObject/BookingIdVO";
+import { BookingStatus } from "#domain/Booking/Enum/BookingStatus";
+import { TimeRangeVO } from "#domain/SharedKernel/ValueObject/TimeRangeVO";
+import { BookingAccessDeniedException } from "#domain/Booking/Exception/BookingAccessDeniedException";
+import { BookingConflictException } from "#domain/Booking/Exception/BookingConflictException";
+import { BookingSlotUnavailableException } from "#domain/Booking/Exception/BookingSlotUnavailableException";
+import { OutsideOpeningHoursException } from "#domain/Booking/Exception/OutsideOpeningHoursException";
+import { CancellationWindowExpiredException } from "#domain/Booking/Exception/CancellationWindowExpiredException";
+import { BookingInPastException } from "#domain/Booking/Exception/BookingInPastException";
+import { InvalidBookingTransitionException } from "#domain/Booking/Exception/InvalidBookingTransitionException";
+import { BookingRescheduledDED } from "#domain/Booking/Event/Data/BookingRescheduledDED";
+const id="11111111-1111-4111-8111-111111111111";const ids={next:()=>id};const now=new Date("2026-11-01T00:00:00Z");
+const old=new TimeRangeVO("2026-11-02T12:00:00.000Z","2026-11-02T13:00:00.000Z");
+const target=new TimeRangeVO("2026-11-02T12:30:00.000Z","2026-11-02T13:30:00.000Z");
+const resource={id,name:"Room",isActive:true,minSlotMinutes:30,isOpen:true};
+const make=(status=BookingStatus.Confirmed)=>Booking.restore(new BookingIdVO(id),id,id,old,status,now.toISOString());
+describe("domain.booking.reschedule",()=>{
+ it("preserves identity/status and emits serializable interval change after validation",()=>{const booking=make();booking.reschedule(id,false,0,target,resource,[],ids,now);expect(booking.getId().getValue()).toBe(id);expect(booking.getRange()).toBe(target);expect(booking.getStatus()).toBe(BookingStatus.Confirmed);expect(booking.getRevision()).toBe(1);const event=booking.pullEvents()[0]!;expect(event.getEventName()).toBe("Booking.Rescheduled");expect(BookingRescheduledDED.fromJSON(JSON.parse(JSON.stringify(event.getData()))).startAt).toBe(target.getStart().toISOString());});
+ it("denies nonowner, stale edits, occupied targets and closed calendars without changing original",()=>{for(const [actor,version,config,occupied,error] of [["other",0,resource,[],BookingAccessDeniedException],[id,1,resource,[],BookingConflictException],[id,0,resource,[target],BookingSlotUnavailableException],[id,0,{...resource,isOpen:false},[],OutsideOpeningHoursException]] as const){const booking=make();expect(()=>booking.reschedule(actor,false,version,target,config,occupied,ids,now)).toThrow(error);expect(booking.getRange()).toBe(old);expect(booking.getRevision()).toBe(0);expect(booking.pullEvents()).toEqual([]);}});
+ it("applies the movement cutoff to pending bookings too",()=>{expect(()=>make(BookingStatus.Pending).reschedule(id,false,0,target,resource,[],ids,new Date("2026-11-02T11:00:00Z"))).toThrow(CancellationWindowExpiredException);});
+ it("enforces original-start cutoff and terminal guards, including Admin already-started protection",()=>{expect(()=>make().reschedule(id,false,0,target,resource,[],ids,new Date("2026-11-02T11:00:00Z"))).toThrow(CancellationWindowExpiredException);expect(()=>make().reschedule("admin",true,0,target,resource,[],ids,new Date("2026-11-02T12:00:00Z"))).toThrow(BookingInPastException);expect(()=>make(BookingStatus.Cancelled).reschedule(id,true,0,target,resource,[],ids,now)).toThrow(InvalidBookingTransitionException);});
+});
