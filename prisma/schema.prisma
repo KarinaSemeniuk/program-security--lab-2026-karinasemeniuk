@@ -76,6 +76,7 @@ model BookingModel {
   status BookingStatus @default(PENDING)
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
   privateNote BookingNoteModel?
+  sealedNotes SealedNoteModel[]
   user UserModel @relation(fields: [userId], references: [id], onDelete: Restrict)
   resource ResourceModel @relation(fields: [resourceId], references: [id], onDelete: Restrict)
   @@index([userId, startAt])
@@ -96,4 +97,16 @@ model BookingNoteModel {
   booking BookingModel @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   @@unique([keyId, nonce])
   @@map("booking_notes")
+}
+
+model SealedNoteModel {
+  bookingId String @map("booking_id") @db.Uuid
+  revision Int
+  keyId String @map("key_id") @db.VarChar(32)
+  nonce String @db.VarChar(16)
+  envelope Json
+  booking BookingModel @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  @@id([bookingId, revision])
+  @@unique([keyId, nonce])
+  @@map("sealed_notes")
 }

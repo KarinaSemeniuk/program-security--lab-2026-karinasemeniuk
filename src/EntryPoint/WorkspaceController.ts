@@ -1,3 +1,4 @@
+import { SealedNotesUC } from "#application/Booking/UseCase/SealedNotesUC";
 import { ChangePasswordUC } from "#application/Identity/UseCase/ChangePasswordUC";
 import { ChangePasswordAC } from "#application/Identity/Command/ChangePasswordAC";
 import { ManageAccountsUC } from "#application/Identity/UseCase/ManageAccountsUC";
@@ -58,6 +59,7 @@ export class WorkspaceController {
   public constructor(private readonly current: Pick<GetCurrentUserUC, "execute">,
     private readonly authentication: Pick<AuthenticationController, "cookie">, private readonly origin: string,
     private readonly operations: {
+      sealedNotes?: SealedNotesUC;
       changePassword: ChangePasswordUC; accounts: ManageAccountsUC; revokeOthers: RevokeOtherSessionsUC;
       setCalendar: Pick<SetResourceCalendarUC, "execute">;
       updateResource: Pick<UpdateResourceUC, "execute">; reactivateResource: Pick<ReactivateResourceUC, "execute">; resourceDetails: GetResourceDetailsUC;
@@ -68,7 +70,11 @@ export class WorkspaceController {
       history: ListBookingsForResourceUC; availability: GetResourceAvailabilityUC;
       licenseStatus: GetServiceLicenseUC; getNote: GetPrivateNoteUC; saveNote: Pick<SavePrivateNoteUC, "execute">;
     }) {}
-  private actor(request: Request) { return this.current.execute(new GetCurrentUserAQ(this.authentication.cookie(request))); }
+  private async actor(request: Request) {
+    const actor = await this.current.execute(new GetCurrentUserAQ(this.authentication.cookie(request)));
+    if (request.res) request.res.locals.actorId = actor.id;
+    return actor;
+  }
   /** @param body - Unknown JSON. @param keys - Exact allowed fields. @returns Validated object shape. @throws InvalidRequestBodyException On extra/missing/non-object input. */
   public object(body: unknown, keys: readonly string[]): Record<string, unknown> {
     if (typeof body !== "object" || body === null || Array.isArray(body) || Object.keys(body).length !== keys.length || keys.some(key => !(key in body))) throw new InvalidRequestBodyException();
@@ -204,6 +210,18 @@ export class WorkspaceController {
     router.post("/admin/accounts/:id/block",async(request,response,next)=>{
       try { const actor=await this.actor(request);const body=this.object(request.body as unknown,["blocked"]);if(typeof body.blocked!=="boolean")throw new InvalidRequestBodyException();response.json({account:await this.operations.accounts.setBlocked(new SetAccountBlockedAC(actor,request.params.id!,body.blocked))}); } catch(error:unknown) { next(error); }
     });
+    if (this.operations.sealedNotes) {
+      const sealedNotes = this.operations.sealedNotes;
+      router.get("/bookings/:id/sealed-note", async (request, response, next) => {
+        try { const actor = await this.actor(request); this.query(request, []); response.json({ note: await sealedNotes.read(actor, request.params.id!) }); }
+        catch (error: unknown) { next(error); }
+      });
+      router.post("/bookings/:id/sealed-note", async (request, response, next) => {
+        try { const actor = await this.actor(request); const body = this.object(request.body as unknown, ["envelope", "revision"]);
+          response.json({ note: await sealedNotes.save(actor, request.params.id!, body.envelope, this.integer(body.revision)) }); }
+        catch (error: unknown) { next(error); }
+      });
+    }
     router.get("/admin/service", async (request, response, next) => {
       try { const actor = await this.actor(request); this.query(request, []); response.json({ service: this.operations.licenseStatus.execute(actor) }); }
       catch (error: unknown) { next(error); }

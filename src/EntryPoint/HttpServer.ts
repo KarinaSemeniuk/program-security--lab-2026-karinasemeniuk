@@ -1,4 +1,4 @@
-import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import express, { type Express, type Request, type Response, type NextFunction, type RequestHandler } from "express";
 import { Server } from "node:http";
 import { WorkspaceController } from "#entrypoint/WorkspaceController";
 import { AuthenticationController } from "#entrypoint/AuthenticationController";
@@ -22,6 +22,7 @@ export class HttpServer {
    * @param corsOrigin - Exact configured frontend origin.
    * @param workspace - Catalog and reservation routes.
    * @param authentication - Optional authentication routes, supplied by production wiring.
+   * @param telemetry - Optional safe transport audit middleware.
    * @param limiter - Bounded, direct-client attempt limiter.
    */
   public constructor(
@@ -30,14 +31,18 @@ export class HttpServer {
     limiter = new RegistrationRateLimiter(),
     authentication?: AuthenticationController,
     workspace?: WorkspaceController,
+    telemetry?: RequestHandler,
   ) {
     this.application = express();
     this.application.disable("x-powered-by");
     this.application.set("trust proxy", false);
     const errors = new HttpErrorResponder();
+    if (telemetry) this.application.use(telemetry);
 
     this.application.use((request, response, next) => {
       response.vary("Origin");
+      response.set("X-Content-Type-Options", "nosniff");
+      response.set("Referrer-Policy", "no-referrer");
       if (request.path.startsWith("/api/")) response.set("Cache-Control", "no-store");
       const origin = request.get("origin");
       if (origin && origin !== corsOrigin) {

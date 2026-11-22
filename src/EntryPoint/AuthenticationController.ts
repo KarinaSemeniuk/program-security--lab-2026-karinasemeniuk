@@ -61,12 +61,13 @@ export class AuthenticationController {
       try {
         const input = this.credentials(request.body as unknown);
         const result = await this.signIn.execute(new SignInUserAC(input.email, input.password, this.cookie(request)));
+        response.locals.actorId = result.user.id;
         response.cookie("roombook_session", result.token, { ...options, maxAge: 900_000 });
         response.json({ user: result.user });
       } catch (error: unknown) { next(error); }
     });
     router.get("/me", async (request, response, next) => {
-      try { response.json({ user: await this.current.execute(new GetCurrentUserAQ(this.cookie(request))) }); }
+      try { const user = await this.current.execute(new GetCurrentUserAQ(this.cookie(request))); response.locals.actorId = user.id; response.json({ user }); }
       catch (error: unknown) { next(error); }
     });
     router.post("/logout", async (request, response, next) => {

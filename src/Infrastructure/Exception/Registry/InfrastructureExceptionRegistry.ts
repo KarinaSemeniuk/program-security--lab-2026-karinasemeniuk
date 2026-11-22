@@ -2,6 +2,10 @@
 export enum InfrastructureExceptionRegistry {
   /** Stable registry segment; numeric members below are never reused. */
   SEGMENT = "INF",
+  /** Audit chain integrity failure. */
+  AuditIntegrity = 13,
+  /** Audit storage failure. */
+  AuditPersistence = 14,
   /** NotePersistence failure. */
   NotePersistence = 12,
   /** NoteKeyConfiguration failure. */

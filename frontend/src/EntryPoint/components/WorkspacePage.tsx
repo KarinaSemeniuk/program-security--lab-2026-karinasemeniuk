@@ -13,6 +13,7 @@ import { IBookableResource } from "#ui-domain/Booking/Contract/IBookableResource
 import { IBookingView } from "#ui-domain/Booking/Contract/IBookingView";
 import { IAvailabilitySlot } from "#ui-domain/Booking/Contract/IAvailabilitySlot";
 import { WorkspaceResult } from "#ui-domain/Booking/Contract/WorkspaceResult";
+import { SealedNoteEditor } from "#ui-entrypoint/components/SealedNoteEditor";
 import { PrivateNoteEditor } from "#ui-entrypoint/components/PrivateNoteEditor";
 import { RoomBookMark } from "#ui-entrypoint/components/RoomBookMark";
 
@@ -174,6 +175,7 @@ export function WorkspacePage(props: { workspace: WorkspaceUC; user: ICurrentUse
             {!admin && booking.status === "CONFIRMED" && !canCancel && <small className="muted">Скасування закрите: до початку менше двох годин.</small>}
           </div>
           {["PENDING","CONFIRMED"].includes(booking.status) && Date.parse(booking.startAt)>Date.now() && (admin||Date.parse(booking.startAt)-Date.now()>=7200_000) && <BookingMoveEditor key={booking.id+":"+(booking.revision??0)} booking={booking} workspace={props.workspace} timeZone={timeZone} onExpired={props.onExpired} onSaved={()=>{setNotice("Бронювання перенесено. Приватну нотатку збережено.");setRefresh(value=>value+1);}} />}
+          {tab === "mine" && props.user?.id === booking.userId && props.workspace.sealedNotes && <SealedNoteEditor service={props.workspace.sealedNotes} ownerId={props.user.id} bookingId={booking.id} />}
           {tab === "mine" && props.user?.id === booking.userId && <PrivateNoteEditor bookingId={booking.id} workspace={props.workspace} onExpired={props.onExpired} />}
           {canCancel && <button className="secondary-button" disabled={busy} onClick={() => setConfirmation({ kind: "cancel", id: booking.id, label: `${booking.resourceName || "Бронювання"} · ${stamp(booking.startAt)}` })}>Скасувати бронювання</button>}
         </article>;

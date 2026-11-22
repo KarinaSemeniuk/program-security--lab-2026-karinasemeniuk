@@ -11,3 +11,7 @@ coverage/
 .secrets/
 
 artifacts/
+
+var/
+.backups/
+*backup-key*

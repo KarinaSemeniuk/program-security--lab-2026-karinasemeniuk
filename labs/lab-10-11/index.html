@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="uk"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Читацький кабінет — варіант 8</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2f5f7;color:#20323e;font:16px/1.5 system-ui}main{max-width:1050px;margin:32px auto;padding:0 24px}header{display:flex;justify-content:space-between;align-items:center}h1{font-size:30px;margin:8px 0}h2{font-size:21px}small,.muted{color:#526571}form{display:flex;gap:16px;align-items:end;flex-wrap:wrap;background:white;padding:22px;border:1px solid #d6dee3;border-radius:12px;margin:24px 0}label{display:grid;gap:6px}input{padding:10px;border:1px solid #9aaab5;border-radius:5px;font:inherit}button{background:#225b64;color:white;border:0;border-radius:5px;padding:12px 18px;font:inherit;cursor:pointer}button:disabled{opacity:.6}section{background:white;padding:22px;border:1px solid #d6dee3;border-radius:12px;margin:18px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.stats div{background:#e8f1f1;border-radius:8px;padding:18px}.stats strong{display:block;font-size:30px}table{border-collapse:collapse;width:100%;font-size:14px}td,th{padding:12px 8px;text-align:left;border-bottom:1px solid #dce3e7}th{color:#526571;font-weight:600}.status{font-size:14px;color:#225b64}.error{color:#9a2222}#reader{font-size:18px}footer{margin:28px 0;font-size:13px;color:#526571}@media(max-width:650px){.stats{grid-template-columns:1fr}table{font-size:12px}}
+</style>
+<main><header><div><small>НАВЧАЛЬНИЙ REST КЛІЄНТ</small><h1>Читацький кабінет</h1></div><span class="status">Варіант 08</span></header>
+<form id="login"><label>Client ID<input id="id" value="dahlia-08" autocomplete="off" required></label><label>Client secret<input id="secret" type="password" autocomplete="off" required></label><button id="connect">Увійти та отримати дані</button></form>
+<p id="notice" role="status">Запустіть навчальний сервер на 127.0.0.1:8080 та введіть облікові дані.</p>
+<div id="content" hidden><section><h2>Поточний читач</h2><p id="reader"></p><p class="muted" id="mark"></p></section>
+<div class="stats"><div><strong id="total"></strong>книг у каталозі</div><div><strong id="available"></strong>доступні для видачі</div><div><strong id="active"></strong>активні позики</div></div>
+<section><h2>Каталог книг</h2><table><thead><tr><th>Код</th><th>Назва та автор</th><th>Рік</th><th>Доступність</th></tr></thead><tbody id="books"></tbody></table></section>
+<section><h2>Активні позики</h2><table><thead><tr><th>Позика</th><th>Книга</th><th>Видано</th><th>Повернути до</th></tr></thead><tbody id="loans"></tbody></table></section></div>
+<footer>Автентифікація через /auth/token · Bearer-токен зберігається в пам’яті до закриття сторінки</footer></main>
+<script type="module">
+import {LibraryClient} from './library-client.mjs';
+const el=id=>document.getElementById(id);let client;
+function row(parent,values){const tr=document.createElement('tr');for(const value of values){const td=document.createElement('td');td.textContent=String(value);tr.append(td)}parent.append(tr)}
+el('login').addEventListener('submit',async event=>{event.preventDefault();el('connect').disabled=true;el('content').hidden=true;el('notice').className='';el('notice').textContent='Отримуємо дані…';client?.clear();
+try{client=new LibraryClient('http://127.0.0.1:8080',el('id').value,el('secret').value);const result=await client.overview();el('secret').value='';
+el('reader').textContent=result.reader.reader_name+' · '+result.reader.reader_id+' · '+result.reader.library_card;el('mark').textContent='Контрольна мітка: '+result.summary.watermark;
+el('total').textContent=result.summary.total_books;el('available').textContent=result.summary.available_books;el('active').textContent=result.summary.active_loans;
+el('books').replaceChildren();for(const b of result.books.books)row(el('books'),[b.id,b.title+' — '+b.author,b.year,b.available?'Доступна':'Видана']);
+el('loans').replaceChildren();for(const l of result.loans.loans)row(el('loans'),[l.loan_id,l.title,l.issued_at,l.due_at]);
+el('content').hidden=false;el('notice').textContent='Дані отримано. Токен автоматично додано до чотирьох захищених запитів.';
+}catch{el('notice').className='error';el('notice').textContent='Не вдалося отримати дані. Перевірте сервер і облікові дані.';}finally{el('connect').disabled=false}});
+</script></html>

@@ -1,3 +1,5 @@
+import { ISealedNoteRepository } from "#domain/Booking/OutsourceContract/ISealedNoteRepository";
+import { PrismaSealedNoteRepository } from "#infrastructure/Persistence/PrismaSealedNoteRepository";
 import { IRescheduleBookingRepository } from "#domain/Booking/OutsourceContract/IRescheduleBookingRepository";
 import { IResourceCalendarRepository } from "#domain/Catalog/OutsourceContract/IResourceCalendarRepository";
 import { INoteCipher } from "#domain/Booking/OutsourceContract/INoteCipher";
@@ -15,6 +17,8 @@ import { BookingPersistenceException } from "#infrastructure/Exception/BookingPe
 /** Owns the shared workspace pool; ORM types never escape Persistence. */
 export class WorkspacePersistence {
   private readonly client: PrismaClient;
+  /** Opaque ciphertext storage, independent of server note keys. */
+  public readonly sealedNotes: ISealedNoteRepository;
   /** Resource calendar mutations. */
   public readonly calendars: IResourceCalendarRepository;
   /** Versioned Admin catalog mutations. */
@@ -31,6 +35,7 @@ export class WorkspacePersistence {
   public constructor(databaseUrl: string, ids: IBookingIdFactory, events: IBookingEventDispatcher, cipher: INoteCipher) {
     try {
       this.client = new PrismaClient({ datasources: { db: { url: databaseUrl } } });
+      this.sealedNotes = new PrismaSealedNoteRepository(this.client);
       this.notes = new PrismaBookingNoteRepository(this.client, cipher);
       const resourceAdapter = new PrismaResourceRepository(this.client);
       this.calendars = resourceAdapter; this.resources = resourceAdapter; this.resourceManagement = resourceAdapter;

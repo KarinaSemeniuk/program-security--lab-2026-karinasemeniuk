@@ -1,11 +1,12 @@
+import { SealedNotesUC } from "#ui-application/Booking/UseCase/SealedNotesUC";
 import { IResourceDraft } from "#ui-domain/Booking/Contract/IResourceDraft";
 import { BookingSelectionService } from "#ui-domain/Booking/Service/BookingSelectionService";
 import { IAvailabilitySlot } from "#ui-domain/Booking/Contract/IAvailabilitySlot";
 import { IWorkspaceGateway } from "#ui-domain/Booking/OutsourceContract/IWorkspaceGateway";
 /** Application facade for typed catalog and booking intents. Server remains authoritative. */
 export class WorkspaceUC {
-  /** @param gateway - Cookie-aware transport. */
-  public constructor(private readonly gateway: IWorkspaceGateway, private readonly selection = new BookingSelectionService()) {}
+  /** @param gateway - Cookie-aware transport. @param selection - Client slot selection. @param sealedNotes - Optional client-side encrypted note orchestration. */
+  public constructor(private readonly gateway: IWorkspaceGateway, private readonly selection = new BookingSelectionService(), public readonly sealedNotes?: SealedNotesUC) {}
   /** @param slots - Ordered slots. @param start - Selected index. @returns Available adjacent count. */
   public contiguous(slots: readonly IAvailabilitySlot[], start: number) { return this.selection.contiguous(slots, start); }
   /** @param slots - Ordered slots. @param start - Selected index. @param units - Selected slot count. @returns Typed selection. */

@@ -32,6 +32,7 @@ export class HttpErrorResponder {
   public status(error: unknown): number {
     const code = this.normalize(error).getCode();
     const explicit: Readonly<Record<string, number>> = {
+      "RB.INF.13": 422, "RB.INF.14": 503,
       "RB.LIC.1": 403, "RB.LIC.2": 403, "RB.LIC.3": 403,
       "RB.BKG.10": 400, "RB.BKG.11": 409, "RB.INF.9": 503, "RB.INF.10": 422, "RB.INF.11": 503, "RB.INF.12": 503,
       "RB.CAT.6": 400, "RB.BKG.12": 409, "RB.BKG.13": 409, "RB.CAT.4": 400, "RB.CAT.5": 409, "RB.CAT.1": 400, "RB.CAT.2": 404, "RB.CAT.3": 403,
@@ -55,6 +56,7 @@ export class HttpErrorResponder {
   public respond(error: unknown, response: Response): void {
     const normalized = this.normalize(error);
     const status = this.status(normalized);
+    response.locals.errorCode = normalized.getCode();
     if (status === 429 && !response.hasHeader("Retry-After")) response.set("Retry-After", "900");
     response.status(status).json({
       error: { code: normalized.getCode(), message: normalized.getPublicMessage() },

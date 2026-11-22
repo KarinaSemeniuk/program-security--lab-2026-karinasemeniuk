@@ -1,3 +1,6 @@
+import { SealedNotesUC } from "#ui-application/Booking/UseCase/SealedNotesUC";
+import { SealedNotesHttpGateway } from "#ui-infrastructure/Transport/SealedNotesHttpGateway";
+import { WebCryptoSealedNotes } from "#ui-infrastructure/Cryptography/WebCryptoSealedNotes";
 import { BookingSelectionService } from "#ui-domain/Booking/Service/BookingSelectionService";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
@@ -18,6 +21,6 @@ if (root) {
     new RegistrationHttpGateway(import.meta.env.VITE_API_BASE_URL || ""),
   );
   const session = new SessionUC(new SessionHttpGateway(import.meta.env.VITE_API_BASE_URL || ""));
-  const workspace = new WorkspaceUC(new WorkspaceHttpGateway(import.meta.env.VITE_API_BASE_URL || ""), new BookingSelectionService());
+  const workspace = new WorkspaceUC(new WorkspaceHttpGateway(import.meta.env.VITE_API_BASE_URL || ""), new BookingSelectionService(), new SealedNotesUC(new SealedNotesHttpGateway(import.meta.env.VITE_API_BASE_URL || ""), new WebCryptoSealedNotes()));
   createRoot(root).render(<StrictMode><AuthenticationPage registration={registration} session={session} workspace={workspace} /></StrictMode>);
 }

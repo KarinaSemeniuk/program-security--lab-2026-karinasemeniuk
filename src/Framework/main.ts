@@ -6,7 +6,10 @@ import { RescheduleBookingUC } from "#application/Booking/UseCase/RescheduleBook
 import { LicensedRescheduleBookingUC } from "#application/BookingLicensing/UseCase/LicensedRescheduleBookingUC";
 import { SetResourceCalendarUC } from "#application/Catalog/UseCase/SetResourceCalendarUC";
 import { LicensedSetResourceCalendarUC } from "#application/CatalogLicensing/UseCase/LicensedSetResourceCalendarUC";
+import { SealedNotesUC } from "#application/Booking/UseCase/SealedNotesUC";
 import { HttpServer } from "#entrypoint/HttpServer";
+import { HttpTelemetry } from "#infrastructure/Transport/HttpTelemetry";
+import { FileHashChain } from "#infrastructure/Audit/FileHashChain";
 import { RegistrationController } from "#entrypoint/RegistrationController";
 import { HttpErrorResponder } from "#entrypoint/HttpErrorResponder";
 import { RegisterUserUC } from "#application/Identity/UseCase/RegisterUserUC";
@@ -92,6 +95,7 @@ async function start(): Promise<void> {
     const { resources, bookings } = persistence;
     const completion = new CompleteBookingService(bookings);
     const workspace = new WorkspaceController(new GetCurrentUserUC(users, tokens, sessions), authentication, config.corsOrigin, {
+      sealedNotes: new SealedNotesUC(persistence.sealedNotes),
       changePassword: new ChangePasswordUC(new AuthenticateUserService(users,await BcryptPasswordVerifier.create()),new ChangePasswordService(new PasswordPolicyService(blocklist),new BcryptPasswordHasher()),users),
       accounts: new ManageAccountsUC(users), revokeOthers: new RevokeOtherSessionsUC(users,tokens),
       getNote: new GetPrivateNoteUC(persistence.notes), saveNote: new LicensedSavePrivateNoteUC(new SavePrivateNoteUC(persistence.notes), license),
@@ -107,7 +111,9 @@ async function start(): Promise<void> {
       cancelBooking: new CancelBookingUC(bookings), mine: new ListMyBookingsUC(bookings),
       history: new ListBookingsForResourceUC(bookings), availability: new GetResourceAvailabilityUC(resources, bookings),
     });
-    server = new HttpServer(new RegistrationController(new RegisterUserUC(registration)), config.corsOrigin, undefined, authentication, workspace);
+    const chain = new FileHashChain(process.env.AUDIT_CHAIN_PATH || "var/audit/events-chain.jsonl");
+    const telemetry = new HttpTelemetry(process.env.AUDIT_LOG_PATH || "var/log/audit.jsonl", 5 * 1024 * 1024, 5, chain);
+    server = new HttpServer(new RegistrationController(new RegisterUserUC(registration)), config.corsOrigin, undefined, authentication, workspace, telemetry.middleware());
     let completing = false;
     const complete = async (): Promise<void> => {
       if (completing) return; completing = true;
